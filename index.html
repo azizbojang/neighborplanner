@@ -217,7 +217,7 @@
                     </p>
                 </div>
 
-                <div class="feature-card bg-nexus-panel p-8 rounded-2xl border border-white/5 shadow-xl relative overflow-hidden group cursor-pointer" data-tilt data-tilt-glare data-tilt-max-glare="0.2" data-aos="fade-up" data-aos-delay="200">
+                <div id="gis-map" class="feature-card bg-nexus-panel p-8 rounded-2xl border border-white/5 shadow-xl relative overflow-hidden group cursor-pointer" data-tilt data-tilt-glare data-tilt-max-glare="0.2" data-aos="fade-up" data-aos-delay="200">
                     <div class="absolute -right-10 -top-10 w-32 h-32 bg-nexus-500/20 rounded-full blur-2xl group-hover:bg-nexus-glow/30 transition-colors"></div>
                     <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-nexus-500/20 to-nexus-glow/20 border border-nexus-glow/30 flex items-center justify-center text-nexus-glow mb-6">
                         <i data-lucide="map" class="w-7 h-7"></i>
@@ -283,21 +283,32 @@
             
             <div class="lg:col-span-5 space-y-8" data-aos="fade-right">
                 <div class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-nexus-glow bg-nexus-glow/10 px-3 py-1.5 rounded-full border border-nexus-glow/20">
-                    <i data-lucide="terminal" class="w-4 h-4"></i> Vendor CLI Automation
+                    <i data-lucide="terminal" class="w-4 h-4"></i> Vendor CLI & Custom Templates
                 </div>
-                <h2 class="text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight">1-Click Script Generation</h2>
+                
+                <h2 class="text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight">
+                    Multi-Vendor & Custom Script Engine
+                </h2>
+                
                 <p class="text-slate-400 text-lg leading-relaxed">
-                    Select your equipment vendor. Nexus Links instantly compiles error-free MML commands ready to be deployed into your OSS/NMS console.
+                    Select your equipment vendor or build <span class="text-white font-semibold">custom CLI templates</span> and cross-vendor handover scripts matching your operator's exact naming conventions and parameter rules.
                 </p>
 
-                <div class="grid grid-cols-2 gap-4">
+                <!-- 6 Buttons Grid: Huawei, Ericsson, Nokia, ZTE, Cross-Vendor, Custom Template -->
+                <div class="grid grid-cols-2 gap-3.5">
                     <template x-for="(label, key) in vendors" :key="key">
                         <button @click="changeVendor(key)" 
                                 :class="vendor === key ? 'bg-gradient-to-r from-nexus-500 to-nexus-glow text-nexus-dark font-bold shadow-[0_0_20px_rgba(0,255,163,0.3)]' : 'bg-slate-800 text-slate-300 hover:bg-slate-700 border border-white/5'" 
-                                class="px-5 py-4 rounded-xl text-sm transition-all duration-300 flex items-center justify-center gap-2">
+                                class="px-4 py-3.5 rounded-xl text-xs sm:text-sm font-medium transition-all duration-300 flex items-center justify-center text-center">
                             <span x-text="label"></span>
                         </button>
                     </template>
+                </div>
+
+                <div class="pt-2 flex flex-wrap gap-4 text-xs font-mono text-slate-400 border-t border-white/10">
+                    <span class="flex items-center gap-1.5"><i data-lucide="arrow-left-right" class="w-3.5 h-3.5 text-nexus-glow"></i> Cross-Vendor Handovers</span>
+                    <span class="flex items-center gap-1.5"><i data-lucide="file-code" class="w-3.5 h-3.5 text-nexus-glow"></i> Custom Syntax Templates</span>
+                    <span class="flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-nexus-glow"></i> Auto-Parameter Mapping</span>
                 </div>
             </div>
 
@@ -439,18 +450,18 @@
             easing: 'ease-out-cubic'
         });
 
-        // 3. Initialize Particles.js (Network Background - Emerald & Neon Mint Theme)
+        // 3. Initialize Particles.js
         particlesJS("particles-js", {
             "particles": {
                 "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
-                "color": { "value": "#00ffa3" }, /* Neon Mint */
+                "color": { "value": "#00ffa3" },
                 "shape": { "type": "circle" },
                 "opacity": { "value": 0.4, "random": false },
                 "size": { "value": 3, "random": true },
                 "line_linked": {
                     "enable": true,
                     "distance": 150,
-                    "color": "#10b981", /* Emerald Green */
+                    "color": "#10b981",
                     "opacity": 0.4,
                     "width": 1.2
                 },
@@ -479,7 +490,7 @@
             "retina_detect": true
         });
 
-        // 4. Alpine.js Logic for Typewriter Terminal
+        // 4. Alpine.js Terminal Data supporting Huawei, Ericsson, Nokia, ZTE, Cross-Vendor, and Custom Template
         function terminalData() {
             return {
                 vendor: 'huawei',
@@ -489,7 +500,9 @@
                     'huawei': 'Huawei System',
                     'ericsson': 'Ericsson ENM',
                     'nokia': 'Nokia NetAct',
-                    'zte': 'ZTE NetNumen'
+                    'zte': 'ZTE NetNumen',
+                    'cross_vendor': 'Cross-Vendor Link',
+                    'custom_template': 'Custom Template'
                 },
                 scripts: {
                     huawei: [
@@ -507,18 +520,32 @@
                         '<span class="text-emerald-400">✓ Handover priorities injected.</span>'
                     ],
                     nokia: [
-                        '<span class="text-slate-500">// Nokia NetAct RAML2 Stream Generation</span>',
-                        'Parsing XML payload...',
-                        '<span class="text-nexus-glow">&lt;managedObject class="LNREL"</span> distName="MRBTS-102"&gt;',
-                        '&nbsp;&nbsp;&lt;p name="handoverAllowed"&gt;true&lt;/p&gt;',
-                        '<span class="text-emerald-400">✓ Output generated for 24 sector pairs.</span>'
+                        '<span class="text-slate-500">// Nokia NetAct / Plan Editor CLI Command Set</span>',
+                        'Loading NetAct object manager context...',
+                        '<span class="text-nexus-glow">CREATE LNREL:</span> srcLnbts=104, srcLncell=1, tgtLnbts=208, tgtLncell=3;',
+                        '<span class="text-nexus-glow">SET LNREL:</span> handOverAllowed=true, nrNeighbourType=AUTOMATIC;',
+                        '<span class="text-emerald-400">✓ NetAct parameter plan generated.</span>'
                     ],
                     zte: [
-                        '<span class="text-slate-500">// ZTE NetNumen Target Configuration</span>',
-                        'Validating against live network topology...',
-                        '<span class="text-nexus-glow">CREATE:</span> NRCELLRELATION, ME=102, NRCellRelation=102_1-103_2;',
-                        '<span class="text-nexus-glow">SET:</span> NRCELLRELATION, HandoverAllowed=1;',
-                        '<span class="text-emerald-400">✓ Script ready for deployment.</span>'
+                        '<span class="text-slate-500">// ZTE NetNumen U31 MML Engine</span>',
+                        'Validating EMS topology parameters...',
+                        '<span class="text-nexus-glow">ADD NRNEIGHBOR:</span> SubNetwork=1, ME=101, NRCellId=1, TgtNRCellId=204;',
+                        '<span class="text-nexus-glow">SET NRFREQ:</span> SubNetwork=1, ME=101, Arfcn=634000;',
+                        '<span class="text-emerald-400">✓ NetNumen batch execution verified.</span>'
+                    ],
+                    cross_vendor: [
+                        '<span class="text-slate-500">// Cross-Vendor Neighbor Link: Huawei gNodeB ➔ Ericsson eNodeB</span>',
+                        'Parsing source/target parameters (PCI, Arfcn, TAC)...',
+                        '<span class="text-nexus-glow">[SRC: Huawei] ADD NBRREL:</span> LocalCellId=101, TargetCellId=204, NbrType=NR_HANDOVER;',
+                        '<span class="text-nexus-glow">[TGT: Ericsson] cnh:</span> EUtranCellFDD=LTE_Site01, EUtranCellRelation=NR_Site02;',
+                        '<span class="text-emerald-400">✓ Cross-vendor parameters validated & mapped successfully.</span>'
+                    ],
+                    custom_template: [
+                        '<span class="text-slate-500">// User Custom Template Ruleset Applied</span>',
+                        'Substituting variables: ${SRC_CELL_ID}, ${TGT_PCI}, ${FREQ}...',
+                        '<span class="text-nexus-glow">CUSTOM_CMD --src:</span> 101 --tgt: 204 --ho-type: INTER_VENDOR;',
+                        '<span class="text-nexus-glow">SET_NEIGHBOR_PRIORITY:</span> TargetPci=104, Priority=1;',
+                        '<span class="text-emerald-400">✓ Custom operator template compiled with 0 syntax errors.</span>'
                     ]
                 },
                 changeVendor(v) {
@@ -532,18 +559,16 @@
                     let lines = this.scripts[this.vendor];
                     let i = 0;
                     
-                    // Recursive typing effect
                     const typeLine = () => {
                         if (i < lines.length) {
                             this.displayedLines.push(lines[i]);
                             i++;
-                            setTimeout(typeLine, Math.random() * 200 + 300); // Random delay between 300-500ms
+                            setTimeout(typeLine, Math.random() * 200 + 300);
                         } else {
                             this.isTyping = false;
                         }
                     };
                     
-                    // Initial delay before starting to type
                     setTimeout(typeLine, 400);
                 }
             }
