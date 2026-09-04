@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus Links | Next-Gen Telecom RF & Network Optimization</title>
+    <title>Nexus Links | Autonomous RF Neural Intelligence & ANR Matrix</title>
     
-    <!-- Scripts & Libraries -->
+    <!-- Core Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
     <script>
         tailwind.config = {
@@ -20,35 +19,39 @@
             theme: {
                 extend: {
                     colors: {
-                        nexus: {
-                            500: '#10b981', // Emerald Green
-                            600: '#059669', // Dark Emerald
-                            glow: '#00ffa3', // Neon Mint
-                            accent: '#f59e0b', // Amber
-                            cyan: '#06b6d4',
-                            dark: '#030712',
-                            panel: '#0a121e',
-                            surface: '#0f172a'
+                        cyber: {
+                            base: '#02040a',
+                            panel: '#060d1a',
+                            surface: '#0c182b',
+                            neon: '#00ffa3', // Electric Mint
+                            cyan: '#00e5ff', // Laser Cyan
+                            amber: '#ffb703',
+                            crimson: '#ff0055',
+                            border: 'rgba(0, 229, 255, 0.15)'
                         }
                     },
+                    fontFamily: {
+                        mono: ['JetBrains Mono', 'Menlo', 'monospace'],
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif']
+                    },
                     animation: {
-                        'gradient-x': 'gradient-x 10s ease infinite',
-                        'float': 'float 6s ease-in-out infinite',
-                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'scanline': 'scanline 4s linear infinite'
+                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'radar-sweep': 'radarSweep 5s linear infinite',
+                        'hologram-flicker': 'flicker 0.15s infinite',
+                        'laser-drift': 'laserDrift 8s ease-in-out infinite alternate',
                     },
                     keyframes: {
-                        'gradient-x': {
-                            '0%, 100%': { 'background-size': '200% 200%', 'background-position': 'left center' },
-                            '50%': { 'background-size': '200% 200%', 'background-position': 'right center' }
+                        radarSweep: {
+                            '0%': { transform: 'rotate(0deg)' },
+                            '100%': { transform: 'rotate(360deg)' }
                         },
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0px)' },
-                            '50%': { transform: 'translateY(-10px)' }
+                        flicker: {
+                            '0%, 100%': { opacity: '0.98' },
+                            '50%': { opacity: '0.85' }
                         },
-                        scanline: {
-                            '0%': { transform: 'translateY(-100%)' },
-                            '100%': { transform: 'translateY(1000%)' }
+                        laserDrift: {
+                            '0%': { transform: 'translateY(-20%) scale(1)' },
+                            '100%': { transform: 'translateY(20%) scale(1.15)' }
                         }
                     }
                 }
@@ -57,418 +60,392 @@
     </script>
 
     <style>
-        body { background-color: #030712; }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #030712; }
-        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #10b981; }
-
-        .glass-nav {
-            background: rgba(3, 7, 18, 0.85);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-        }
-        .text-gradient {
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+        body { background-color: #02040a; }
         
-        #particles-js {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 0;
-        }
-        
-        .bg-animated-gradient {
-            background: radial-gradient(circle at 50% 20%, rgba(16, 185, 129, 0.12), transparent 60%),
-                        radial-gradient(circle at 80% 60%, rgba(6, 182, 212, 0.08), transparent 50%),
-                        #030712;
-        }
-
-        .btn-glow {
-            transition: all 0.3s ease;
-        }
-        .btn-glow:hover {
-            box-shadow: 0 0 25px rgba(0, 255, 163, 0.45), 0 0 50px rgba(16, 185, 129, 0.2);
-            transform: scale(1.03);
-        }
-
-        .radar-grid {
-            background-size: 30px 30px;
+        /* Sci-Fi HUD Crosshairs and Grid */
+        .hud-grid {
             background-image: 
-                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+                radial-gradient(circle at 50% 50%, rgba(0, 229, 255, 0.04) 0%, transparent 75%),
+                linear-gradient(to right, rgba(0, 229, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
         }
+
+        /* Holographic Bracket Frames */
+        .hud-bracket {
+            position: relative;
+        }
+        .hud-bracket::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; width: 14px; height: 14px;
+            border-top: 2px solid #00ffa3;
+            border-left: 2px solid #00ffa3;
+            pointer-events: none;
+        }
+        .hud-bracket::after {
+            content: '';
+            position: absolute;
+            bottom: -2px; right: -2px; width: 14px; height: 14px;
+            border-bottom: 2px solid #00e5ff;
+            border-right: 2px solid #00e5ff;
+            pointer-events: none;
+        }
+
+        /* Glowing Laser Gradients */
+        .text-glow {
+            text-shadow: 0 0 20px rgba(0, 255, 163, 0.6), 0 0 40px rgba(0, 229, 255, 0.3);
+        }
+        .box-glow {
+            box-shadow: 0 0 35px rgba(0, 255, 163, 0.12), inset 0 0 20px rgba(0, 229, 255, 0.05);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #02040a; }
+        ::-webkit-scrollbar-thumb { background: #0c182b; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #00ffa3; }
     </style>
 </head>
-<body class="text-slate-200 font-sans antialiased overflow-x-hidden selection:bg-nexus-glow selection:text-nexus-dark">
+<body class="text-slate-200 font-sans antialiased selection:bg-cyber-neon selection:text-black overflow-x-hidden hud-grid">
 
-    <!-- NAVIGATION BAR -->
-    <header class="fixed top-0 left-0 right-0 z-50 glass-nav transition-all duration-300">
+    <!-- HOLOGRAPHIC NAV (Top telemetry bar removed) -->
+    <header class="sticky top-0 z-40 bg-cyber-base/80 backdrop-blur-2xl border-b border-white/5 transition-all">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <a href="#" class="flex items-center gap-3 group z-10">
-                <div class="relative w-10 h-10 rounded-xl bg-gradient-to-tr from-nexus-500 to-nexus-glow p-0.5 flex items-center justify-center animate-pulse-slow">
-                    <div class="w-full h-full bg-nexus-dark rounded-[10px] flex items-center justify-center">
-                        <i data-lucide="radio" class="w-5 h-5 text-nexus-glow group-hover:rotate-45 transition-transform duration-500"></i>
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="relative w-11 h-11 rounded-lg bg-gradient-to-tr from-cyber-cyan to-cyber-neon p-0.5 flex items-center justify-center">
+                    <div class="w-full h-full bg-cyber-base rounded-[6px] flex items-center justify-center">
+                        <i data-lucide="satellite-dish" class="w-5 h-5 text-cyber-neon group-hover:scale-110 transition-transform"></i>
                     </div>
                 </div>
                 <div class="flex flex-col">
-                    <span class="font-black text-xl tracking-wider text-white">NEXUS<span class="text-nexus-glow">LINKS</span></span>
-                    <span class="text-[9px] tracking-[0.25em] text-slate-400 uppercase -mt-1 font-mono">RF Intelligence Suite</span>
+                    <div class="font-black text-xl tracking-widest text-white flex items-center gap-1">
+                        NEXUS<span class="text-cyber-neon text-glow">LINKS</span>
+                        <span class="text-[9px] bg-cyber-cyan/20 text-cyber-cyan px-1.5 py-0.2 rounded font-mono font-normal">v4.8</span>
+                    </div>
+                    <span class="text-[8px] tracking-[0.3em] text-slate-500 uppercase -mt-1 font-mono">Neural RF Spatial Matrix</span>
                 </div>
             </a>
 
-            <nav class="hidden lg:flex items-center gap-8 text-sm font-medium text-slate-300 z-10">
-                <a href="#pipeline" class="hover:text-nexus-glow transition-colors">How It Works</a>
-                <a href="#interactive-map" class="hover:text-nexus-glow transition-colors">Interactive GIS</a>
-                <a href="#audit-demo" class="hover:text-nexus-glow transition-colors">Integrity Audit</a>
-                <a href="#mml-generator" class="hover:text-nexus-glow transition-colors">MML Script Engine</a>
-                <a href="#comparison" class="hover:text-nexus-glow transition-colors">ROI vs Excel</a>
+            <nav class="hidden lg:flex items-center gap-6 xl:gap-8 text-xs font-mono tracking-wider uppercase text-slate-300">
+                <a href="#holo-engine" class="hover:text-cyber-neon transition-colors flex items-center gap-1.5 whitespace-nowrap"><i data-lucide="radar" class="w-3.5 h-3.5 text-cyber-cyan"></i> Holo-Canvas</a>
+                <a href="#drive-sim" class="hover:text-cyber-neon transition-colors flex items-center gap-1.5 whitespace-nowrap"><i data-lucide="activity" class="w-3.5 h-3.5 text-cyber-neon"></i> Drive Simulator</a>
+                <a href="#audit-matrix" class="hover:text-cyber-neon transition-colors flex items-center gap-1.5 whitespace-nowrap"><i data-lucide="shield-alert" class="w-3.5 h-3.5 text-cyber-amber"></i> Conflict Matrix</a>
+                <a href="#mml-dock" class="hover:text-cyber-neon transition-colors flex items-center gap-1.5 whitespace-nowrap"><i data-lucide="terminal" class="w-3.5 h-3.5 text-cyber-cyan"></i> Multi-RAT MML</a>
             </nav>
 
-            <div class="z-10 flex items-center gap-4">
-                <a href="#contact" class="btn-glow relative px-6 py-2.5 rounded-xl font-bold text-sm bg-gradient-to-r from-nexus-500 to-nexus-glow text-nexus-dark flex items-center gap-2">
-                    Request Demo <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                </a>
-            </div>
+            <a href="#contact" class="px-5 py-2.5 rounded-lg bg-gradient-to-r from-cyber-neon via-emerald-400 to-cyber-cyan text-black font-extrabold text-xs tracking-wider uppercase flex items-center gap-2 shadow-[0_0_30px_rgba(0,255,163,0.4)] hover:shadow-[0_0_50px_rgba(0,255,163,0.8)] transition-all whitespace-nowrap">
+                <i data-lucide="zap" class="w-3.5 h-3.5 fill-current"></i> Launch Terminal
+            </a>
         </div>
     </header>
 
-    <!-- HERO SECTION WITH REALISTIC RF WORKSTATION PREVIEW -->
-    <section class="relative min-h-screen flex items-center justify-center bg-animated-gradient overflow-hidden pt-28 pb-20">
-        <div id="particles-js"></div>
+    <!-- HERO SECTION WITH FULL-BLEED INTERACTIVE HOLOGRAPHIC RF CANVAS (#holo-engine) -->
+    <section id="holo-engine" class="relative min-h-[90vh] flex items-center justify-center overflow-hidden pt-12 pb-24 scroll-mt-20">
         
-        <div class="max-w-7xl mx-auto px-6 relative z-10 grid lg:grid-cols-12 gap-12 items-center">
+        <!-- Live Interactive RF WebGL / Canvas Background (Reacts to Mouse & Clicks) -->
+        <canvas id="rf-canvas" class="absolute inset-0 w-full h-full pointer-events-auto opacity-75 cursor-crosshair"></canvas>
+        
+        <!-- Subtle Canvas Instructions Callout (Bottom-Left) -->
+        <div class="absolute bottom-4 left-6 z-20 font-mono text-[11px] text-slate-400 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10 hidden md:flex items-center gap-2 pointer-events-none">
+            <span class="w-2 h-2 rounded-full bg-cyber-neon animate-ping"></span>
+            <span>Move cursor to steer RF beamforming rays • Click to deploy new 5G cell site</span>
+        </div>
+
+        <!-- Subtle Radial Glow Over Canvas -->
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-cyber-base/50 to-cyber-base pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10 grid lg:grid-cols-12 gap-12 items-center pointer-events-none">
             
-            <div class="lg:col-span-6 text-center lg:text-left space-y-8" data-aos="fade-right" data-aos-duration="1000">
-                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-xs font-semibold text-nexus-glow backdrop-blur-md">
-                    <span class="w-2 h-2 rounded-full bg-nexus-glow animate-ping"></span>
-                    Multi-RAT Ready: 2G • 3G • 4G LTE • 5G NR
+            <div class="lg:col-span-7 space-y-8 text-center lg:text-left pointer-events-auto" data-aos="fade-up">
+                
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyber-panel border border-cyber-border text-[11px] font-mono text-cyber-neon backdrop-blur-xl">
+                    <span class="w-2 h-2 rounded-full bg-cyber-cyan animate-pulse"></span>
+                    AUTONOMOUS CELLULAR NEIGHBOR OPTIMIZATION
                 </div>
 
-                <h1 class="text-4xl sm:text-6xl lg:text-6xl font-black tracking-tight leading-[1.1] text-white">
-                    Automate Cellular <br>
-                    <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-nexus-glow text-gradient">Neighbor Relations</span>
-                    <br>In Seconds.
+                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.05] text-white">
+                    Next-Era <br>
+                    <span class="bg-gradient-to-r from-cyber-neon via-cyber-cyan to-white bg-clip-text text-transparent text-glow">
+                        RF Neural Topology
+                    </span>
+                    <br>& Instant ANR.
                 </h1>
 
-                <p class="text-base sm:text-lg text-slate-300 max-w-xl mx-auto lg:mx-0 font-normal leading-relaxed">
-                    Eliminate manual spreadsheet planning and handover dropped calls. Nexus Links calculates azimuths, beamwidths, and spatial distances to automatically configure neighbors and export vendor-certified MML scripts.
+                <p class="text-base sm:text-lg text-slate-300 max-w-xl font-normal leading-relaxed">
+                    Stop manually debugging handovers across endless Excel sheets. Nexus Links is the world’s first GPU-accelerated spatial intelligence tool that calculates 3D antenna vector intersections, audits parameter collisions, and exports vendor MML scripts in milliseconds.
                 </p>
 
+                <!-- Interactive Callouts -->
                 <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
-                    <a href="#contact" class="btn-glow w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-nexus-500 to-nexus-glow text-nexus-dark font-extrabold text-base flex items-center justify-center gap-3">
-                        <i data-lucide="calendar" class="w-5 h-5"></i> Schedule Live Demo
+                    <a href="#drive-sim" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-cyber-neon to-cyber-cyan text-black font-black text-sm tracking-wider uppercase flex items-center justify-center gap-2 shadow-[0_0_35px_rgba(0,255,163,0.4)] hover:scale-105 transition-all">
+                        <i data-lucide="play" class="w-4 h-4 fill-current"></i> Test Drive Simulator
                     </a>
-                    <a href="#interactive-map" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 backdrop-blur-md text-white font-semibold text-base transition-all flex items-center justify-center gap-2">
-                        <i data-lucide="map-pin" class="w-5 h-5 text-nexus-glow"></i> Test Interactive Map
+                    <a href="#contact" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-cyber-surface/60 border border-cyber-border hover:border-cyber-neon text-white font-mono text-xs tracking-wider uppercase backdrop-blur-md flex items-center justify-center gap-2 transition-all">
+                        <i data-lucide="code-2" class="w-4 h-4 text-cyber-cyan"></i> Request Enterprise Trial
                     </a>
                 </div>
 
-                <!-- METRICS STRIP -->
-                <div class="grid grid-cols-3 gap-4 pt-4 border-t border-white/10">
+                <!-- Metrics Strip -->
+                <div class="pt-6 border-t border-white/10 flex items-center gap-8 font-mono text-xs text-slate-400">
                     <div>
-                        <div class="text-2xl sm:text-3xl font-black text-white">10x</div>
-                        <div class="text-xs text-slate-400 uppercase tracking-wider font-mono">Faster Scripting</div>
+                        <div class="text-[9px] uppercase tracking-widest text-slate-500">CONVERGENCE SPEED</div>
+                        <div class="text-white font-bold text-lg text-cyber-neon font-mono">&lt; 0.45 sec</div>
                     </div>
                     <div>
-                        <div class="text-2xl sm:text-3xl font-black text-nexus-glow">99.4%</div>
-                        <div class="text-xs text-slate-400 uppercase tracking-wider font-mono">Handover Target</div>
+                        <div class="text-[9px] uppercase tracking-widest text-slate-500">HANDOVER SUCCESS</div>
+                        <div class="text-white font-bold text-lg text-cyber-cyan font-mono">99.82%</div>
                     </div>
                     <div>
-                        <div class="text-2xl sm:text-3xl font-black text-cyan-400">100%</div>
-                        <div class="text-xs text-slate-400 uppercase tracking-wider font-mono">Client-Side Privacy</div>
+                        <div class="text-[9px] uppercase tracking-widest text-slate-500">COLLISION DETECTION</div>
+                        <div class="text-white font-bold text-lg text-white font-mono">100% PROVEN</div>
                     </div>
                 </div>
+
             </div>
 
-            <!-- HERO RIGHT: REALISTIC TELECOM RF WORKSTATION MOCKUP -->
-            <div class="lg:col-span-6 relative" data-aos="fade-left" data-aos-duration="1200">
-                <div class="relative w-full rounded-2xl bg-slate-950 border border-slate-700/80 shadow-[0_0_60px_rgba(16,185,129,0.15)] overflow-hidden animate-float">
+            <!-- HERO RIGHT: SCI-FI HOLOGRAPHIC HUD COCKPIT -->
+            <div class="lg:col-span-5 relative pointer-events-auto" data-aos="zoom-in">
+                <div class="hud-bracket bg-cyber-panel/90 border border-cyber-border rounded-2xl p-6 backdrop-blur-2xl box-glow">
                     
-                    <div class="px-4 py-3 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+                    <!-- HUD Top Bar -->
+                    <div class="flex items-center justify-between pb-4 border-b border-cyber-border text-xs font-mono">
                         <div class="flex items-center gap-2">
-                            <span class="w-3 h-3 rounded-full bg-rose-500/80"></span>
-                            <span class="w-3 h-3 rounded-full bg-amber-500/80"></span>
-                            <span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
-                            <span class="ml-3 text-xs font-mono text-slate-400 font-semibold">NexusLinks_Workspace.gis</span>
+                            <i data-lucide="cpu" class="w-4 h-4 text-cyber-neon"></i>
+                            <span class="text-white font-bold">SPATIAL_MATRIX_HUD</span>
                         </div>
-                        <div class="flex items-center gap-3 text-[11px] font-mono">
-                            <span class="text-emerald-400 bg-emerald-950/60 border border-emerald-500/30 px-2 py-0.5 rounded">AUTO_ANR: ON</span>
-                            <span class="text-slate-400">CELLS: 1,566</span>
+                        <span class="text-cyber-cyan bg-cyber-cyan/10 px-2 py-0.5 rounded border border-cyber-cyan/30 text-[10px]">AUTONOMOUS</span>
+                    </div>
+
+                    <!-- HUD Graphic Visualizer -->
+                    <div class="relative my-6 h-52 bg-cyber-base rounded-xl border border-white/5 overflow-hidden flex items-center justify-center">
+                        <div class="absolute w-44 h-44 rounded-full border border-cyber-neon/20"></div>
+                        <div class="absolute w-32 h-32 rounded-full border border-cyber-cyan/30"></div>
+                        <div class="absolute w-20 h-20 rounded-full border border-cyber-neon/40"></div>
+                        
+                        <!-- Rotating Radar Scanner Sweep -->
+                        <div class="absolute inset-0 flex items-center justify-center animate-radar-sweep">
+                            <div class="w-1/2 h-0.5 bg-gradient-to-r from-transparent via-cyber-neon to-cyber-cyan origin-left shadow-[0_0_15px_#00ffa3]"></div>
+                        </div>
+
+                        <!-- Core Tower Marker -->
+                        <div class="relative z-10 w-9 h-9 rounded-full bg-cyber-neon text-black flex items-center justify-center font-black text-xs shadow-[0_0_25px_#00ffa3]">
+                            5G
+                        </div>
+
+                        <!-- Dynamic HUD Overlays -->
+                        <div class="absolute top-3 left-3 text-[10px] font-mono text-slate-400 bg-black/60 p-1.5 rounded border border-white/10">
+                            BEAM_AZ: <span class="text-cyber-neon">120°</span><br>
+                            BW_HORIZ: <span class="text-cyber-cyan">65°</span>
+                        </div>
+
+                        <div class="absolute bottom-3 right-3 text-[10px] font-mono text-slate-400 bg-black/60 p-1.5 rounded border border-white/10">
+                            NBRS_RANKED: <span class="text-white font-bold">8</span><br>
+                            PCI_REUSE_DIST: <span class="text-cyber-neon">4.8km</span>
                         </div>
                     </div>
 
-                    <div class="relative h-[360px] bg-[#070d19] radar-grid overflow-hidden p-4">
-                        
-                        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-emerald-500/5 to-transparent h-16 w-full animate-scanline pointer-events-none"></div>
-
-                        <!-- Source Site A -->
-                        <div class="absolute top-28 left-20 z-20">
-                            <div class="absolute w-24 h-24 -top-20 -left-6 bg-emerald-500/20 border-l border-r border-emerald-400/40 origin-bottom transform rotate-0" style="clip-path: polygon(50% 100%, 0 0, 100% 0);"></div>
-                            <div class="absolute w-24 h-24 -top-6 -left-6 bg-emerald-500/30 border-l border-r border-emerald-400/60 origin-bottom transform rotate-120" style="clip-path: polygon(50% 100%, 0 0, 100% 0);"></div>
-                            <div class="absolute w-24 h-24 -top-6 -left-6 bg-emerald-500/20 border-l border-r border-emerald-400/40 origin-bottom transform rotate-240" style="clip-path: polygon(50% 100%, 0 0, 100% 0);"></div>
-                            
-                            <div class="relative w-7 h-7 rounded-full bg-emerald-500 flex items-center justify-center text-black font-black text-[10px] shadow-[0_0_20px_#00ffa3] cursor-pointer">
-                                A
-                            </div>
-                            <span class="absolute top-8 -left-4 text-[10px] font-mono font-bold text-white bg-black/80 px-1.5 py-0.5 rounded border border-white/10">SITE_01_NR</span>
+                    <!-- Live Parameter Status -->
+                    <div class="grid grid-cols-2 gap-3 text-xs font-mono">
+                        <div class="bg-cyber-surface/60 p-3 rounded-lg border border-white/5">
+                            <div class="text-[10px] text-slate-500 uppercase">Haversine Vector</div>
+                            <div class="text-white font-bold mt-0.5">r = 1,420m @ 118°</div>
                         </div>
-
-                        <!-- Target Site B -->
-                        <div class="absolute top-44 right-28 z-20">
-                            <div class="absolute w-20 h-20 -top-16 -left-6 bg-cyan-500/20 border-l border-r border-cyan-400/40 origin-bottom transform -rotate-45" style="clip-path: polygon(50% 100%, 0 0, 100% 0);"></div>
-                            <div class="relative w-6 h-6 rounded-full bg-cyan-400 flex items-center justify-center text-black font-black text-[9px] shadow-[0_0_15px_#06b6d4]">
-                                B
-                            </div>
-                            <span class="absolute top-7 -left-3 text-[10px] font-mono text-slate-300 bg-black/80 px-1.5 py-0.5 rounded border border-white/10">SITE_02_LTE</span>
+                        <div class="bg-cyber-surface/60 p-3 rounded-lg border border-white/5">
+                            <div class="text-[10px] text-slate-500 uppercase">MML State</div>
+                            <div class="text-cyber-neon font-bold mt-0.5">READY_TO_EMIT</div>
                         </div>
+                    </div>
 
-                        <!-- Handover Line Vector -->
-                        <svg class="absolute inset-0 w-full h-full pointer-events-none z-10">
-                            <line x1="120" y1="140" x2="380" y2="190" stroke="#00ffa3" stroke-width="2" stroke-dasharray="6,4" />
-                            <circle cx="250" cy="165" r="4" fill="#00ffa3" class="animate-ping" />
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- GROUNDBREAKING FEATURE 1: INTERACTIVE DRIVE TEST SIMULATOR -->
+    <section id="drive-sim" class="py-28 bg-cyber-panel border-y border-cyber-border relative scroll-mt-20" 
+             x-data="driveSimulator()" x-init="init()">
+        <div class="max-w-7xl mx-auto px-6">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+                <div>
+                    <div class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-cyber-neon bg-cyber-neon/10 px-3 py-1 rounded-full border border-cyber-neon/20 mb-3">
+                        <i data-lucide="navigation-2" class="w-4 h-4"></i> Live Autonomous Drive-Test Engine
+                    </div>
+                    <h2 class="text-3xl sm:text-5xl font-black text-white">Experience Real-Time Handover Execution</h2>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button @click="toggleSimulation()" 
+                            :class="isRunning ? 'bg-cyber-crimson text-white shadow-[0_0_20px_#ff0055]' : 'bg-cyber-neon text-black shadow-[0_0_20px_#00ffa3]'"
+                            class="px-5 py-2.5 rounded-xl font-mono text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2">
+                        <i :data-lucide="isRunning ? 'pause' : 'play'" class="w-4 h-4 fill-current"></i>
+                        <span x-text="isRunning ? 'Abort Drive' : 'Engage Autonomous Drive'"></span>
+                    </button>
+                    <button @click="resetSimulation()" class="px-4 py-2.5 rounded-xl bg-cyber-surface border border-white/10 text-xs font-mono text-slate-400 hover:text-white transition-all">
+                        Reset
+                    </button>
+                </div>
+            </div>
+
+            <!-- The Simulator Console Grid -->
+            <div class="grid lg:grid-cols-12 gap-8 items-stretch">
+                
+                <div class="lg:col-span-8 hud-bracket bg-cyber-base border border-cyber-border rounded-2xl p-4 relative min-h-[420px] overflow-hidden flex flex-col justify-between">
+                    
+                    <div class="flex items-center justify-between font-mono text-xs text-slate-400 z-10">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-cyber-neon animate-ping"></span>
+                            <span>GPS TRACKER: <strong class="text-white">ROUTE_SECTOR_LINK_08</strong></span>
+                        </div>
+                        <span class="text-cyber-cyan font-bold" x-text="'VEHICLE SPEED: ' + speed + ' km/h'"></span>
+                    </div>
+
+                    <div class="relative w-full h-72 my-auto">
+                        <svg class="w-full h-full">
+                            <!-- Handover Boundary Line -->
+                            <line x1="50%" y1="0" x2="50%" y2="100%" stroke="rgba(255, 255, 255, 0.1)" stroke-width="2" stroke-dasharray="4,4" />
+                            <text x="51%" y="30" fill="rgba(0, 229, 255, 0.5)" font-family="monospace" font-size="10">HO_BOUNDARY_THRESHOLD</text>
+
+                            <!-- Serving Tower (Site A) -->
+                            <g transform="translate(80, 50)">
+                                <circle cx="0" cy="0" r="30" fill="rgba(0, 255, 163, 0.08)" />
+                                <circle cx="0" cy="0" r="14" fill="#00ffa3" />
+                                <text x="-25" y="35" fill="#00ffa3" font-family="monospace" font-size="11" font-weight="bold">SITE_01 (PCI: 104)</text>
+                                <line x1="0" y1="0" :x2="carPosition" y2="140" stroke="#00ffa3" :stroke-opacity="servingOpacity" stroke-width="2" />
+                            </g>
+
+                            <!-- Target Tower (Site B) -->
+                            <g transform="translate(680, 50)">
+                                <circle cx="0" cy="0" r="30" fill="rgba(0, 229, 255, 0.08)" />
+                                <circle cx="0" cy="0" r="14" fill="#00e5ff" />
+                                <text x="-25" y="35" fill="#00e5ff" font-family="monospace" font-size="11" font-weight="bold">SITE_02 (PCI: 208)</text>
+                                <line x1="0" y1="0" :x2="carPosition - 600" y2="140" stroke="#00e5ff" :stroke-opacity="targetOpacity" stroke-width="2" />
+                            </g>
+
+                            <!-- Vehicle Track Line -->
+                            <line x1="40" y1="190" x2="720" y2="190" stroke="#1e293b" stroke-width="8" stroke-linecap="round" />
+                            <line x1="40" y1="190" :x2="carPosition" y2="190" stroke="#00ffa3" stroke-width="4" stroke-linecap="round" />
+
+                            <!-- The Moving Vehicle -->
+                            <g :transform="`translate(${carPosition}, 190)`">
+                                <circle cx="0" cy="0" r="12" fill="#ffffff" class="shadow-[0_0_20px_#ffffff]" />
+                                <circle cx="0" cy="0" r="22" fill="none" stroke="#00ffa3" stroke-width="2" class="animate-ping" />
+                            </g>
                         </svg>
-
-                        <!-- Live GIS Inspector Floating Card -->
-                        <div class="absolute bottom-4 left-4 right-4 bg-slate-900/90 backdrop-blur-md p-3 rounded-xl border border-white/10 grid grid-cols-4 gap-2 text-center text-xs font-mono">
-                            <div class="border-r border-white/10">
-                                <div class="text-slate-400 text-[9px]">DISTANCE</div>
-                                <div class="text-white font-bold">1.42 km</div>
-                            </div>
-                            <div class="border-r border-white/10">
-                                <div class="text-slate-400 text-[9px]">AZIMUTH / BEAM</div>
-                                <div class="text-emerald-400 font-bold">120° / 65°</div>
-                            </div>
-                            <div class="border-r border-white/10">
-                                <div class="text-slate-400 text-[9px]">SOURCE PCI</div>
-                                <div class="text-nexus-glow font-bold">104 (5G)</div>
-                            </div>
-                            <div>
-                                <div class="text-slate-400 text-[9px]">HANDOVER</div>
-                                <div class="text-emerald-400 font-bold flex items-center justify-center gap-1">
-                                    <i data-lucide="check" class="w-3 h-3"></i> OPTIMAL
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
+
+                    <div class="bg-cyber-surface/90 border border-white/10 p-3 rounded-xl flex items-center justify-between font-mono text-xs z-10">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="radio" class="w-4 h-4 text-cyber-neon"></i>
+                            <span>ACTIVE_SERVER: <strong class="text-white" x-text="activeCell"></strong></span>
+                        </div>
+                        <div :class="handoverAlert ? 'text-cyber-neon font-black animate-pulse' : 'text-slate-400'" 
+                             x-text="handoverAlert ? '⚡ A3 EVENT: HANDOVER SUCCESSFULLY EXECUTED ➔ PCI SWITCHED' : 'NORMAL LINK PROPAGATION'">
+                        </div>
+                    </div>
+
                 </div>
+
+                <!-- Right Telemetry Cockpit -->
+                <div class="lg:col-span-4 space-y-4">
+                    
+                    <div class="bg-cyber-base border border-cyber-border rounded-2xl p-5 font-mono">
+                        <div class="flex justify-between text-xs text-slate-400 mb-2">
+                            <span>MEASURED RSRP</span>
+                            <span class="text-cyber-neon font-bold" x-text="rsrp + ' dBm'"></span>
+                        </div>
+                        <div class="w-full h-3 bg-slate-900 rounded-full overflow-hidden p-0.5 border border-white/5">
+                            <div class="h-full bg-gradient-to-r from-cyber-crimson via-cyber-amber to-cyber-neon rounded-full transition-all duration-300"
+                                 :style="`width: ${rsrpPercent}%;`"></div>
+                        </div>
+                        <div class="flex justify-between text-[9px] text-slate-500 mt-1">
+                            <span>-120 dBm (Cell Edge)</span>
+                            <span>-75 dBm (Dominant)</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-cyber-base border border-cyber-border rounded-2xl p-5 font-mono">
+                        <div class="flex justify-between text-xs text-slate-400 mb-2">
+                            <span>SIGNAL QUALITY (SINR)</span>
+                            <span class="text-cyber-cyan font-bold" x-text="sinr + ' dB'"></span>
+                        </div>
+                        <div class="w-full h-3 bg-slate-900 rounded-full overflow-hidden p-0.5 border border-white/5">
+                            <div class="h-full bg-gradient-to-r from-cyber-cyan to-cyber-neon rounded-full transition-all duration-300"
+                                 :style="`width: ${sinrPercent}%;`"></div>
+                        </div>
+                    </div>
+
+                    <div class="bg-cyber-base border border-cyber-border rounded-2xl p-5 font-mono text-xs">
+                        <div class="text-[10px] uppercase tracking-widest text-slate-500 mb-2">DYNAMIC MML PACKET GENERATED:</div>
+                        <div class="p-3 bg-black/80 rounded-lg text-[11px] border border-white/5 text-slate-300 space-y-1">
+                            <div class="text-slate-500">// Triggered by A3 RSRP Margin (3dB)</div>
+                            <div class="text-cyber-neon" x-text="`SET HO_CMD: SrcCell=${activeCell}, TgtPCI=${targetPCI};`"></div>
+                            <div class="text-emerald-400">STATUS: 0ms DROPPED CALLS</div>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
 
         </div>
     </section>
 
-    <!-- 4-STEP WORKFLOW PIPELINE -->
-    <section id="pipeline" class="py-24 bg-slate-950 border-t border-white/5">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center max-w-3xl mx-auto mb-16">
-                <span class="text-xs font-mono uppercase tracking-[0.2em] text-nexus-glow">Architecture & Workflow</span>
-                <h2 class="text-3xl md:text-5xl font-black text-white mt-2">From Raw Data to Commissioned Sites in 4 Steps</h2>
-            </div>
-
-            <div class="grid md:grid-cols-4 gap-6">
-                
-                <div class="p-6 rounded-2xl bg-nexus-panel border border-white/5 relative">
-                    <div class="w-10 h-10 rounded-lg bg-emerald-500/20 text-emerald-400 font-mono font-bold flex items-center justify-center mb-4">01</div>
-                    <h3 class="text-lg font-bold text-white mb-2">Ingest Excel / EPT</h3>
-                    <p class="text-sm text-slate-400">Drag & drop raw engineering parameter templates (2G GCELL, LTE, 5G NR). Parses client-side in milliseconds.</p>
-                </div>
-
-                <div class="p-6 rounded-2xl bg-nexus-panel border border-white/5 relative">
-                    <div class="w-10 h-10 rounded-lg bg-cyan-500/20 text-cyan-400 font-mono font-bold flex items-center justify-center mb-4">02</div>
-                    <h3 class="text-lg font-bold text-white mb-2">Spatial ANR Engine</h3>
-                    <p class="text-sm text-slate-400">Algorithmic Haversine distance, azimuth orientation, and beam overlap rank candidates automatically.</p>
-                </div>
-
-                <div class="p-6 rounded-2xl bg-nexus-panel border border-white/5 relative">
-                    <div class="w-10 h-10 rounded-lg bg-amber-500/20 text-amber-400 font-mono font-bold flex items-center justify-center mb-4">03</div>
-                    <h3 class="text-lg font-bold text-white mb-2">Conflict Auditing</h3>
-                    <p class="text-sm text-slate-400">Detects duplicate PCIs, missing reciprocal relations, and frequency collisions before pushing live.</p>
-                </div>
-
-                <div class="p-6 rounded-2xl bg-nexus-panel border border-nexus-glow/30 relative shadow-[0_0_25px_rgba(0,255,163,0.1)]">
-                    <div class="w-10 h-10 rounded-lg bg-nexus-glow text-black font-mono font-bold flex items-center justify-center mb-4">04</div>
-                    <h3 class="text-lg font-bold text-white mb-2">Vendor MML Export</h3>
-                    <p class="text-sm text-slate-400">One-click compile into exact syntax for Huawei, Ericsson, Nokia, ZTE, or custom operator CLI.</p>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- INTERACTIVE GIS DEMO PREVIEW -->
-    <section id="interactive-map" class="py-24 bg-nexus-dark" x-data="{ selectedSector: 'Sector 2 (East)', azimuth: 120, neighbors: 5, status: 'Optimal' }">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="grid lg:grid-cols-12 gap-12 items-center">
-                
-                <div class="lg:col-span-5 space-y-6">
-                    <div class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-nexus-glow bg-nexus-glow/10 px-3 py-1 rounded-full border border-nexus-glow/20">
-                        <i data-lucide="layers" class="w-4 h-4"></i> Interactive GIS Experience
-                    </div>
-                    <h2 class="text-3xl sm:text-4xl font-black text-white">Full Geospatial Control Right in Your Browser</h2>
-                    <p class="text-slate-400 text-base leading-relaxed">
-                        Visualize cell wedges with real horizontal beamwidth calculations, measurement rulers, elevation profiles, and hex-grid spatial clustering.
-                    </p>
-
-                    <!-- Interactive Selector Buttons -->
-                    <div class="space-y-3 pt-2">
-                        <div class="text-xs font-mono text-slate-400 uppercase">Select A Test Sector:</div>
-                        <div class="grid grid-cols-3 gap-2">
-                            <button @click="selectedSector = 'Sector 1 (North)'; azimuth = 0; neighbors = 3; status = 'Optimal'" 
-                                    :class="selectedSector.includes('North') ? 'bg-nexus-glow text-black font-bold' : 'bg-slate-800 text-slate-300'"
-                                    class="py-2 px-3 rounded-lg text-xs font-mono transition-all">Sec 1 (0°)</button>
-                            <button @click="selectedSector = 'Sector 2 (East)'; azimuth = 120; neighbors = 5; status = 'Optimal'" 
-                                    :class="selectedSector.includes('East') ? 'bg-nexus-glow text-black font-bold' : 'bg-slate-800 text-slate-300'"
-                                    class="py-2 px-3 rounded-lg text-xs font-mono transition-all">Sec 2 (120°)</button>
-                            <button @click="selectedSector = 'Sector 3 (West)'; azimuth = 240; neighbors = 2; status = 'Missing Reciprocal'" 
-                                    :class="selectedSector.includes('West') ? 'bg-amber-400 text-black font-bold' : 'bg-slate-800 text-slate-300'"
-                                    class="py-2 px-3 rounded-lg text-xs font-mono transition-all">Sec 3 (240°)</button>
-                        </div>
-                    </div>
-
-                    <div class="p-4 rounded-xl bg-slate-900 border border-white/10 font-mono text-xs space-y-2">
-                        <div class="flex justify-between">
-                            <span class="text-slate-400">Current Target:</span>
-                            <span class="text-white font-bold" x-text="selectedSector"></span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-slate-400">Calculated Azimuth:</span>
-                            <span class="text-nexus-glow font-bold" x-text="azimuth + '°'"></span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-slate-400">Recommended NBRs:</span>
-                            <span class="text-white font-bold" x-text="neighbors + ' Cells'"></span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-slate-400">Integrity Check:</span>
-                            <span :class="status === 'Optimal' ? 'text-emerald-400' : 'text-amber-400'" class="font-bold" x-text="status"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="lg:col-span-7">
-                    <div class="rounded-2xl border border-slate-700 bg-slate-900 p-2 shadow-2xl relative">
-                        <div class="rounded-xl overflow-hidden relative h-[380px] bg-[#050b14] radar-grid flex items-center justify-center">
-                            
-                            <!-- Dynamic Tower & Wedge Simulation -->
-                            <div class="relative">
-                                <div class="w-36 h-36 bg-gradient-to-t from-nexus-glow/40 to-transparent border-l border-r border-nexus-glow origin-bottom transition-transform duration-500"
-                                     :style="`transform: rotate(${azimuth}deg); clip-path: polygon(50% 100%, 0 0, 100% 0);`"></div>
-                                <div class="absolute inset-0 flex items-center justify-center">
-                                    <div class="w-10 h-10 rounded-full bg-nexus-glow text-black font-black flex items-center justify-center shadow-[0_0_30px_#00ffa3]">
-                                        <i data-lucide="radio" class="w-5 h-5"></i>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="absolute top-4 left-4 bg-slate-900/90 border border-white/10 px-3 py-1.5 rounded-lg text-xs font-mono text-slate-300">
-                                <span class="text-nexus-glow font-bold">GIS Live View:</span> Sector Beam Simulation
-                            </div>
-
-                            <div class="absolute bottom-4 right-4 bg-black/80 border border-white/10 px-3 py-1.5 rounded-lg text-[10px] font-mono text-slate-400">
-                                Projection: EPSG:4326 (WGS84)
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- INTERACTIVE INTEGRITY AUDIT & CONFLICT INSPECTOR -->
-    <section id="audit-demo" class="py-24 bg-slate-950 border-t border-white/5" x-data="auditData()">
+    <!-- GROUNDBREAKING FEATURE 2: 3D CYBER CONFLICT MATRIX (AUDIT) -->
+    <section id="audit-matrix" class="py-28 bg-cyber-base relative scroll-mt-20">
         <div class="max-w-7xl mx-auto px-6">
             
-            <div class="text-center max-w-3xl mx-auto mb-16" data-aos="fade-up">
-                <div class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-amber-400 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20 mb-3">
-                    <i data-lucide="shield-alert" class="w-4 h-4"></i> Automated Quality Assurance
-                </div>
-                <h2 class="text-3xl md:text-5xl font-black text-white">Continuous Parameter Integrity Audit</h2>
+            <div class="text-center max-w-3xl mx-auto mb-20">
+                <span class="text-xs font-mono uppercase tracking-[0.25em] text-cyber-cyan">Neural Integrity Scanner</span>
+                <h2 class="text-3xl sm:text-5xl font-black text-white mt-2">Zero-Collision Parameter Engine</h2>
                 <p class="text-slate-400 text-sm sm:text-base mt-4">
-                    Catch costly RF planning errors before scripts are loaded to the Element Manager. Test the interactive conflict engine below:
+                    Audit entire national clusters in seconds. Nexus Links catches duplicate PCIs, missing reciprocity, and azimuth overshooting before they hit live element managers.
                 </p>
             </div>
 
-            <div class="bg-nexus-panel/90 border border-slate-700/80 rounded-2xl p-6 md:p-8 shadow-2xl backdrop-blur-xl">
+            <!-- 3D Cards Grid with Vanilla-Tilt -->
+            <div class="grid md:grid-cols-3 gap-8">
                 
-                <!-- Audit Header Controls -->
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-white/10">
-                    <div class="flex items-center gap-3">
-                        <div class="w-3 h-3 rounded-full bg-amber-400 animate-ping"></div>
-                        <span class="text-sm font-mono text-slate-300">
-                            Cluster: <strong class="text-white">REGION_NORTH_5G</strong> 
-                            (<span x-text="unresolvedCount" class="text-amber-400 font-bold"></span> Conflicts Detected)
-                        </span>
+                <div class="hud-bracket bg-cyber-panel p-8 rounded-2xl border border-cyber-border hover:border-cyber-neon transition-all" data-tilt data-tilt-max="6">
+                    <div class="w-12 h-12 rounded-xl bg-cyber-crimson/10 border border-cyber-crimson/30 flex items-center justify-center text-cyber-crimson mb-6">
+                        <i data-lucide="alert-triangle" class="w-6 h-6"></i>
                     </div>
-
-                    <div class="flex flex-wrap items-center gap-2">
-                        <!-- Filter Buttons -->
-                        <button @click="filter = 'all'" :class="filter === 'all' ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-white'" class="px-3 py-1.5 rounded-lg text-xs font-mono transition-colors">All</button>
-                        <button @click="filter = 'pci'" :class="filter === 'pci' ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-white'" class="px-3 py-1.5 rounded-lg text-xs font-mono transition-colors">PCI Collisions</button>
-                        <button @click="filter = 'neighbor'" :class="filter === 'neighbor' ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-white'" class="px-3 py-1.5 rounded-lg text-xs font-mono transition-colors">Missing NBR</button>
-                        
-                        <!-- 1-Click Auto-Fix Button -->
-                        <button @click="resolveAll()" class="btn-glow ml-2 px-4 py-1.5 rounded-lg bg-gradient-to-r from-nexus-500 to-nexus-glow text-nexus-dark font-bold text-xs font-mono flex items-center gap-1.5">
-                            <i data-lucide="wand-2" class="w-3.5 h-3.5"></i> 1-Click Auto-Fix All
-                        </button>
+                    <div class="text-xs font-mono text-cyber-crimson font-bold uppercase tracking-wider mb-1">Critical Conflict</div>
+                    <h3 class="text-xl font-bold text-white mb-3">PCI Collision & Confusion</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                        Two cells within 1.2km allocated duplicate PCI 104 with identical carrier frequencies. Nexus Links automatically re-indexes to clean orthogonal codes.
+                    </p>
+                    <div class="pt-4 border-t border-white/5 font-mono text-xs text-cyber-neon flex items-center gap-2">
+                        <i data-lucide="check-circle" class="w-4 h-4"></i> Auto-Remapped in 0.02s
                     </div>
                 </div>
 
-                <!-- Conflict Table -->
-                <div class="overflow-x-auto mt-4">
-                    <table class="w-full text-left font-mono text-xs">
-                        <thead>
-                            <tr class="text-slate-500 border-b border-white/5 uppercase">
-                                <th class="py-3 px-4">Severity</th>
-                                <th class="py-3 px-4">Rule Violation</th>
-                                <th class="py-3 px-4">Affected Sectors</th>
-                                <th class="py-3 px-4">Detected Clash</th>
-                                <th class="py-3 px-4 text-right">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-white/5">
-                            <template x-for="(item, index) in filteredItems" :key="item.id">
-                                <tr class="hover:bg-white/[0.02] transition-colors">
-                                    <td class="py-4 px-4">
-                                        <span :class="item.severity === 'CRITICAL' ? 'bg-rose-500/20 text-rose-400 border-rose-500/30' : 'bg-amber-500/20 text-amber-400 border-amber-500/30'"
-                                              class="px-2 py-0.5 rounded border text-[10px] font-bold" x-text="item.severity"></span>
-                                    </td>
-                                    <td class="py-4 px-4 font-bold text-white" x-text="item.rule"></td>
-                                    <td class="py-4 px-4 text-slate-300" x-text="item.sectors"></td>
-                                    <td class="py-4 px-4 text-slate-400" x-text="item.details"></td>
-                                    <td class="py-4 px-4 text-right">
-                                        <template x-if="!item.resolved">
-                                            <button @click="resolveItem(item.id)" class="px-3 py-1 rounded bg-slate-800 hover:bg-emerald-500/20 hover:text-emerald-400 border border-white/10 text-[11px] text-slate-300 transition-all">
-                                                Resolve Conflict
-                                            </button>
-                                        </template>
-                                        <template x-if="item.resolved">
-                                            <span class="text-emerald-400 inline-flex items-center gap-1 font-bold text-[11px]">
-                                                <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i> Fixed & Ready
-                                            </span>
-                                        </template>
-                                    </td>
-                                </tr>
-                            </template>
-                        </tbody>
-                    </table>
+                <div class="hud-bracket bg-cyber-panel p-8 rounded-2xl border border-cyber-border hover:border-cyber-cyan transition-all" data-tilt data-tilt-max="6">
+                    <div class="w-12 h-12 rounded-xl bg-cyber-cyan/10 border border-cyber-cyan/30 flex items-center justify-center text-cyber-cyan mb-6">
+                        <i data-lucide="refresh-cw" class="w-6 h-6"></i>
+                    </div>
+                    <div class="text-xs font-mono text-cyber-cyan font-bold uppercase tracking-wider mb-1">Handover Blindspot</div>
+                    <h3 class="text-xl font-bold text-white mb-3">Missing Reciprocal Relations</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                        Cell A recognizes Cell B, but Cell B has no return handover definition. Nexus Links synthesizes missing bidirectional tuples instantly.
+                    </p>
+                    <div class="pt-4 border-t border-white/5 font-mono text-xs text-cyber-cyan flex items-center gap-2">
+                        <i data-lucide="check-circle" class="w-4 h-4"></i> 100% Reciprocity Fixed
+                    </div>
                 </div>
 
-                <!-- Audit Footer Summary -->
-                <div class="mt-6 pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 font-mono gap-3">
-                    <div class="flex items-center gap-2">
-                        <i data-lucide="shield-check" class="w-4 h-4 text-nexus-glow"></i>
-                        Checks 14 rules including BCCH/BSIC reuse, PCI mod 3/30, and antenna overshoots.
+                <div class="hud-bracket bg-cyber-panel p-8 rounded-2xl border border-cyber-border hover:border-cyber-amber transition-all" data-tilt data-tilt-max="6">
+                    <div class="w-12 h-12 rounded-xl bg-cyber-amber/10 border border-cyber-amber/30 flex items-center justify-center text-cyber-amber mb-6">
+                        <i data-lucide="compass" class="w-6 h-6"></i>
                     </div>
-                    <div class="text-slate-500">
-                        Scan Engine: v4.2 • Client-Side Execution
+                    <div class="text-xs font-mono text-cyber-amber font-bold uppercase tracking-wider mb-1">Spatial Anomaly</div>
+                    <h3 class="text-xl font-bold text-white mb-3">Azimuth & Tilt Overshoot</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                        Identifies macro sites broadcasting outside approved radiation cones causing pilot pollution on distant serving areas.
+                    </p>
+                    <div class="pt-4 border-t border-white/5 font-mono text-xs text-cyber-amber flex items-center gap-2">
+                        <i data-lucide="check-circle" class="w-4 h-4"></i> Geometric Mask Enforced
                     </div>
                 </div>
 
@@ -477,67 +454,60 @@
         </div>
     </section>
 
-    <!-- MML SCRIPT GENERATOR -->
-    <section id="mml-generator" class="py-24 bg-slate-900/60 border-y border-white/5 relative">
-        <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-16 items-center" 
+    <!-- GROUNDBREAKING FEATURE 3: INTERACTIVE MULTI-RAT MML SCRIPT DOCK -->
+    <section id="mml-dock" class="py-28 bg-cyber-panel border-t border-cyber-border relative scroll-mt-20"
              x-data="terminalData()" x-init="typeOut()">
+        <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-16 items-center">
             
-            <div class="lg:col-span-5 space-y-8" data-aos="fade-right">
-                <div class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-nexus-glow bg-nexus-glow/10 px-3 py-1.5 rounded-full border border-nexus-glow/20">
-                    <i data-lucide="terminal" class="w-4 h-4"></i> Vendor CLI & Custom Templates
+            <div class="lg:col-span-5 space-y-8">
+                <div class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.2em] text-cyber-neon bg-cyber-neon/10 px-3 py-1.5 rounded-full border border-cyber-neon/20">
+                    <i data-lucide="terminal" class="w-4 h-4"></i> Universal Vendor Transpiler
                 </div>
-                
+
                 <h2 class="text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">
-                    Multi-Vendor MML Generation
+                    Instant Vendor MML Transpilation
                 </h2>
-                
+
                 <p class="text-slate-400 text-base leading-relaxed">
-                    Select your equipment vendor or build <span class="text-white font-semibold">custom CLI templates</span> to export syntax matching your operator's exact naming conventions.
+                    Transform pure spatial coordinates and frequency charts directly into syntax-compliant execution files for major element managers.
                 </p>
 
-                <!-- 6 Buttons Grid -->
                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
                     <template x-for="(label, key) in vendors" :key="key">
                         <button @click="changeVendor(key)" 
-                                :class="vendor === key ? 'bg-gradient-to-r from-nexus-500 to-nexus-glow text-nexus-dark font-bold shadow-[0_0_20px_rgba(0,255,163,0.3)]' : 'bg-slate-800 text-slate-300 hover:bg-slate-700 border border-white/5'" 
-                                class="px-3 py-3 rounded-xl text-xs font-medium transition-all duration-300 flex items-center justify-center text-center">
+                                :class="vendor === key ? 'bg-cyber-neon text-black font-black shadow-[0_0_25px_rgba(0,255,163,0.4)]' : 'bg-cyber-surface text-slate-300 hover:bg-slate-800 border border-white/5'" 
+                                class="px-3 py-3 rounded-xl text-xs font-mono transition-all flex items-center justify-center text-center">
                             <span x-text="label"></span>
                         </button>
                     </template>
                 </div>
-
-                <div class="pt-2 flex flex-wrap gap-4 text-xs font-mono text-slate-400 border-t border-white/10">
-                    <span class="flex items-center gap-1.5"><i data-lucide="arrow-left-right" class="w-3.5 h-3.5 text-nexus-glow"></i> Cross-Vendor Links</span>
-                    <span class="flex items-center gap-1.5"><i data-lucide="file-code" class="w-3.5 h-3.5 text-nexus-glow"></i> Custom Syntax</span>
-                    <span class="flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-nexus-glow"></i> Zero Collisions</span>
-                </div>
             </div>
 
-            <div class="lg:col-span-7" data-aos="zoom-in-left">
-                <div class="rounded-2xl bg-black border border-slate-700 overflow-hidden shadow-2xl relative">
-                    
-                    <div class="px-4 py-3 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+            <!-- The Cyberpunk Terminal -->
+            <div class="lg:col-span-7">
+                <div class="hud-bracket rounded-2xl bg-black border border-cyber-border overflow-hidden shadow-2xl">
+                    <div class="px-4 py-3 bg-cyber-surface border-b border-white/10 flex items-center justify-between font-mono text-xs">
                         <div class="flex items-center gap-2">
                             <span class="w-3 h-3 rounded-full bg-rose-500"></span>
                             <span class="w-3 h-3 rounded-full bg-amber-500"></span>
                             <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
-                            <span class="ml-3 text-xs font-mono text-slate-400 font-semibold">nexus_compiler.sh</span>
+                            <span class="ml-2 text-slate-400">transpiler_node.sh</span>
                         </div>
-                        <div class="flex items-center gap-2 text-xs font-mono text-nexus-glow">
-                            <span class="animate-pulse">●</span> READY TO EXPORT
-                        </div>
+                        <span class="text-cyber-neon flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-cyber-neon animate-ping"></span> MML_STREAM
+                        </span>
                     </div>
 
-                    <div class="p-6 font-mono text-xs sm:text-sm space-y-3 min-h-[300px] bg-black/90 relative">
+                    <div class="p-6 font-mono text-xs sm:text-sm space-y-2.5 min-h-[320px] bg-black/90">
                         <template x-for="line in displayedLines">
                             <div class="flex">
-                                <span class="text-slate-600 mr-4 select-none">></span>
+                                <span class="text-slate-600 mr-4 select-none">&gt;</span>
                                 <span class="text-slate-300" x-html="line"></span>
                             </div>
                         </template>
                         <div x-show="isTyping" class="flex items-center mt-2">
-                            <span class="text-slate-600 mr-4">></span>
-                            <span class="w-2.5 h-4 bg-nexus-glow animate-pulse"></span>
+                            <span class="text-slate-600 mr-4">&gt;</span>
+                            <span class="w-2.5 h-4 bg-cyber-neon animate-pulse"></span>
                         </div>
                     </div>
                 </div>
@@ -546,280 +516,307 @@
         </div>
     </section>
 
-    <!-- ROI COMPARISON: MANUAL SPREADSHEETS VS NEXUS LINKS -->
-    <section id="comparison" class="py-24 bg-nexus-dark">
-        <div class="max-w-6xl mx-auto px-6">
-            <div class="text-center max-w-2xl mx-auto mb-16">
-                <span class="text-xs font-mono uppercase tracking-widest text-nexus-glow">Measurable Return On Investment</span>
-                <h2 class="text-3xl sm:text-4xl font-black text-white mt-2">Manual Spreadsheets vs. Nexus Links</h2>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-8">
-                
-                <!-- Legacy Way -->
-                <div class="bg-rose-950/20 border border-rose-500/20 rounded-2xl p-8 relative">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold">✕</div>
-                        <div>
-                            <h3 class="text-xl font-bold text-white">Manual Planning</h3>
-                            <span class="text-xs text-rose-400 font-mono">Traditional Excel Workflow</span>
-                        </div>
-                    </div>
-                    <ul class="space-y-4 text-sm text-slate-300">
-                        <li class="flex items-start gap-3">
-                            <i data-lucide="x" class="w-5 h-5 text-rose-500 shrink-0 mt-0.5"></i>
-                            <span><strong>Days of manual labor</strong> calculating Haversine distances across thousands of rows.</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <i data-lucide="x" class="w-5 h-5 text-rose-500 shrink-0 mt-0.5"></i>
-                            <span><strong>High rate of duplicate PCIs</strong> and missing reciprocal neighbor relations.</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <i data-lucide="x" class="w-5 h-5 text-rose-500 shrink-0 mt-0.5"></i>
-                            <span><strong>Manual MML typing errors</strong> causing rejected scripts in the element manager (EMS).</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Nexus Links Way -->
-                <div class="bg-emerald-950/20 border border-emerald-500/30 rounded-2xl p-8 relative shadow-[0_0_30px_rgba(16,185,129,0.1)]">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div class="w-10 h-10 rounded-xl bg-nexus-glow text-black flex items-center justify-center font-bold">✓</div>
-                        <div>
-                            <h3 class="text-xl font-bold text-white">Nexus Links Intelligence</h3>
-                            <span class="text-xs text-nexus-glow font-mono">Algorithmic Optimization</span>
-                        </div>
-                    </div>
-                    <ul class="space-y-4 text-sm text-slate-300">
-                        <li class="flex items-start gap-3">
-                            <i data-lucide="check" class="w-5 h-5 text-nexus-glow shrink-0 mt-0.5"></i>
-                            <span><strong>Sub-second optimization</strong> of full regional clusters (1,500+ cells).</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <i data-lucide="check" class="w-5 h-5 text-nexus-glow shrink-0 mt-0.5"></i>
-                            <span><strong>Zero-conflict guarantee</strong> with automatic PCI, PSC, and BCCH collision checks.</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <i data-lucide="check" class="w-5 h-5 text-nexus-glow shrink-0 mt-0.5"></i>
-                            <span><strong>One-click verified MML exports</strong> formatted for your vendor EMS directly.</span>
-                        </li>
-                    </ul>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- CONTACT / REQUEST DEMO FORM -->
-    <section id="contact" class="py-28 relative bg-slate-950 border-t border-white/10">
-        <div class="max-w-4xl mx-auto px-6 relative z-10" data-aos="zoom-in">
-            <div class="bg-nexus-panel/90 backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-white/10 shadow-2xl">
+    <!-- CONTACT / REQUEST DEMO -->
+    <section id="contact" class="py-28 relative bg-cyber-base border-t border-cyber-border scroll-mt-20">
+        <div class="max-w-4xl mx-auto px-6 relative z-10">
+            <div class="hud-bracket bg-cyber-panel/90 backdrop-blur-2xl rounded-3xl p-8 md:p-12 border border-cyber-border box-glow">
                 
                 <div class="text-center max-w-2xl mx-auto mb-10">
-                    <span class="text-xs font-mono uppercase tracking-widest text-nexus-glow">Get Started Today</span>
-                    <h2 class="text-3xl md:text-5xl font-black text-white tracking-tight mt-2 mb-4">Request a Live Demo</h2>
+                    <span class="text-xs font-mono uppercase tracking-widest text-cyber-neon">Deploy The Future of RF</span>
+                    <h2 class="text-3xl md:text-5xl font-black text-white tracking-tight mt-2 mb-4">Request Live Engineering Session</h2>
                     <p class="text-slate-400 text-sm md:text-base">
-                        Schedule a 20-minute walkthrough with our RF engineering team to test Nexus Links on your own network parameter sheets.
+                        Test Nexus Links on your operator's actual parameter workbooks. See 1,500+ cells optimized in under 1 second.
                     </p>
                 </div>
 
-                <form action="mailto:support@nexuslinks.tech" method="POST" enctype="text/plain" class="space-y-6">
+                <form action="mailto:support@nexuslinks.tech" method="POST" enctype="text/plain" class="space-y-6 font-mono">
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-xs font-mono uppercase text-slate-400 mb-2">Your Name</label>
-                            <input type="text" name="Name" class="w-full px-4 py-3.5 rounded-xl bg-black/50 border border-slate-700 text-white placeholder-slate-600 focus:outline-none focus:border-nexus-glow transition-all" placeholder="Alex Morgan" required>
+                            <label class="block text-xs uppercase text-slate-400 mb-2">Lead Engineer / Planner</label>
+                            <input type="text" name="Name" class="w-full px-4 py-3.5 rounded-xl bg-black/60 border border-cyber-border text-white placeholder-slate-600 focus:outline-none focus:border-cyber-neon transition-all text-xs" placeholder="John Doe, Lead RF Engineer" required>
                         </div>
                         <div>
-                            <label class="block text-xs font-mono uppercase text-slate-400 mb-2">Work Email</label>
-                            <input type="email" name="Email" class="w-full px-4 py-3.5 rounded-xl bg-black/50 border border-slate-700 text-white placeholder-slate-600 focus:outline-none focus:border-nexus-glow transition-all" placeholder="alex@telecom-operator.com" required>
+                            <label class="block text-xs uppercase text-slate-400 mb-2">Corporate Email</label>
+                            <input type="email" name="Email" class="w-full px-4 py-3.5 rounded-xl bg-black/60 border border-cyber-border text-white placeholder-slate-600 focus:outline-none focus:border-cyber-neon transition-all text-xs" placeholder="engineer@operator.com" required>
                         </div>
                     </div>
-                    
+
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-xs font-mono uppercase text-slate-400 mb-2">Company / Operator</label>
-                            <input type="text" name="Company" class="w-full px-4 py-3.5 rounded-xl bg-black/50 border border-slate-700 text-white placeholder-slate-600 focus:outline-none focus:border-nexus-glow transition-all" placeholder="National Telecom / RF Consultancy" required>
+                            <label class="block text-xs uppercase text-slate-400 mb-2">Operator / Consultancy</label>
+                            <input type="text" name="Company" class="w-full px-4 py-3.5 rounded-xl bg-black/60 border border-cyber-border text-white placeholder-slate-600 focus:outline-none focus:border-cyber-neon transition-all text-xs" placeholder="e.g. Vodafone, Ericsson, Telco" required>
                         </div>
                         <div>
-                            <label class="block text-xs font-mono uppercase text-slate-400 mb-2">Primary Radio Access Tech</label>
-                            <select name="RAT" class="w-full px-4 py-3.5 rounded-xl bg-black/50 border border-slate-700 text-white focus:outline-none focus:border-nexus-glow transition-all">
-                                <option>4G LTE & 5G NR</option>
-                                <option>2G GSM & 3G UMTS</option>
-                                <option>Multi-RAT (2G/3G/4G/5G)</option>
-                                <option>Private LTE / Industrial Wireless</option>
+                            <label class="block text-xs uppercase text-slate-400 mb-2">Target Generation</label>
+                            <select name="Tech" class="w-full px-4 py-3.5 rounded-xl bg-black/60 border border-cyber-border text-white focus:outline-none focus:border-cyber-neon transition-all text-xs">
+                                <option>5G NR (NSA / SA) & 4G LTE</option>
+                                <option>Legacy 2G GSM & 3G UMTS</option>
+                                <option>Multi-RAT Full Spectrum</option>
                             </select>
                         </div>
                     </div>
 
-                    <div>
-                        <label class="block text-xs font-mono uppercase text-slate-400 mb-2">Network Size or Specific Requirements</label>
-                        <textarea name="Message" rows="3" class="w-full px-4 py-3.5 rounded-xl bg-black/50 border border-slate-700 text-white placeholder-slate-600 focus:outline-none focus:border-nexus-glow transition-all" placeholder="e.g., Optimizing 1,200 Huawei and Ericsson macro cells..."></textarea>
-                    </div>
-
-                    <button type="submit" class="btn-glow w-full py-4 rounded-xl bg-gradient-to-r from-nexus-500 to-nexus-glow text-nexus-dark font-black text-base flex items-center justify-center gap-3">
-                        <i data-lucide="send" class="w-5 h-5"></i> Submit Demo Request
+                    <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-cyber-neon via-emerald-400 to-cyber-cyan text-black font-black text-sm tracking-wider uppercase flex items-center justify-center gap-2 shadow-[0_0_35px_rgba(0,255,163,0.4)] hover:shadow-[0_0_60px_rgba(0,255,163,0.7)] transition-all">
+                        <i data-lucide="send" class="w-4 h-4 fill-current"></i> Submit Evaluation Request
                     </button>
-
-                    <p class="text-center text-xs text-slate-400 mt-4 flex items-center justify-center gap-2 font-mono">
-                        <i data-lucide="lock" class="w-4 h-4 text-emerald-400"></i> Strict Data Confidentiality • No Data Leaves Your Machine
-                    </p>
                 </form>
+
             </div>
         </div>
     </section>
 
     <!-- FOOTER -->
-    <footer class="py-10 bg-black border-t border-white/10">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+    <footer class="py-10 bg-black border-t border-cyber-border">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6 font-mono text-xs">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded bg-gradient-to-br from-nexus-500 to-nexus-glow flex items-center justify-center">
-                    <i data-lucide="radio" class="w-4 h-4 text-nexus-dark"></i>
-                </div>
-                <span class="font-black text-white text-lg tracking-wide">NEXUS<span class="text-nexus-glow">LINKS</span></span>
+                <i data-lucide="radio" class="w-5 h-5 text-cyber-neon"></i>
+                <span class="text-white font-bold tracking-widest">NEXUS<span class="text-cyber-neon">LINKS</span></span>
             </div>
-            <div class="text-xs text-slate-500 font-mono">
-                &copy; 2026 Nexus Links. Enterprise Telecom Intelligence. All rights reserved.
+            <div class="text-slate-500">
+                &copy; 2026 Nexus Links. Next-Generation RF Automation. All rights reserved.
             </div>
         </div>
     </footer>
 
-    <!-- INTERACTIVE ENGINE LOGIC -->
+    <!-- INTERACTIVE SCRIPTS -->
     <script>
-        // 1. Initialize Lucide Icons
         lucide.createIcons();
+        AOS.init({ once: true, duration: 800 });
 
-        // 2. Initialize AOS Animations
-        AOS.init({
-            once: true,
-            offset: 80,
-            duration: 700,
-            easing: 'ease-out-cubic'
-        });
+        // 1. DYNAMIC HOLOGRAPHIC RF CANVAS ENGINE (CANVAS BEAMFORMING WAVES & MOUSE REACTIVE)
+        (function initRFCanvas() {
+            const canvas = document.getElementById('rf-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let w, h;
+            let mouseX = -1000, mouseY = -1000;
+            
+            function resize() {
+                w = canvas.width = window.innerWidth;
+                h = canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resize);
+            resize();
 
-        // 3. Particles Background Effect
-        particlesJS("particles-js", {
-            "particles": {
-                "number": { "value": 45, "density": { "enable": true, "value_area": 800 } },
-                "color": { "value": "#00ffa3" },
-                "shape": { "type": "circle" },
-                "opacity": { "value": 0.35, "random": false },
-                "size": { "value": 2.5, "random": true },
-                "line_linked": {
-                    "enable": true,
-                    "distance": 140,
-                    "color": "#10b981",
-                    "opacity": 0.35,
-                    "width": 1
-                },
-                "move": {
-                    "enable": true,
-                    "speed": 1.2,
-                    "direction": "none",
-                    "random": false,
-                    "straight": false,
-                    "out_mode": "out",
-                    "bounce": false,
+            // Interactive mouse tracking
+            window.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                mouseX = e.clientX - rect.left;
+                mouseY = e.clientY - rect.top;
+            });
+
+            // Interactive click: Drop new cellular site
+            canvas.addEventListener('click', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                towers.push({
+                    x: x,
+                    y: y,
+                    freq: 0.02,
+                    color: Math.random() > 0.5 ? '#00ffa3' : '#00e5ff'
+                });
+                if (towers.length > 7) towers.shift(); // Keep optimal count
+            });
+
+            // Default Cell Towers Nodes
+            const towers = [
+                { x: 0.22 * w, y: 0.38 * h, freq: 0.02, color: '#00ffa3' },
+                { x: 0.72 * w, y: 0.32 * h, freq: 0.025, color: '#00e5ff' },
+                { x: 0.48 * w, y: 0.65 * h, freq: 0.018, color: '#00ffa3' }
+            ];
+
+            let t = 0;
+            function animate() {
+                t += 0.02;
+                ctx.clearRect(0, 0, w, h);
+
+                // Draw Connecting RF Inter-Site Links
+                if (towers.length > 1) {
+                    ctx.beginPath();
+                    ctx.moveTo(towers[0].x, towers[0].y);
+                    for (let i = 1; i < towers.length; i++) {
+                        ctx.lineTo(towers[i].x, towers[i].y);
+                    }
+                    ctx.closePath();
+                    ctx.strokeStyle = 'rgba(0, 229, 255, 0.08)';
+                    ctx.lineWidth = 1;
+                    ctx.setLineDash([8, 8]);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
                 }
-            },
-            "interactivity": {
-                "detect_on": "canvas",
-                "events": {
-                    "onhover": { "enable": true, "mode": "grab" },
-                    "onclick": { "enable": true, "mode": "push" }
-                },
-                "modes": {
-                    "grab": { "distance": 160, "line_linked": { "opacity": 0.7 } }
-                }
-            },
-            "retina_detect": true
-        });
 
-        // 4. Interactive Integrity Audit Engine
-        function auditData() {
+                // Dynamic Beamforming laser ray to user mouse cursor
+                if (mouseX > 0 && mouseX < w && mouseY > 0 && mouseY < h) {
+                    towers.forEach(tower => {
+                        const dist = Math.hypot(mouseX - tower.x, mouseY - tower.y);
+                        if (dist < 380) {
+                            ctx.beginPath();
+                            ctx.moveTo(tower.x, tower.y);
+                            ctx.lineTo(mouseX, mouseY);
+                            ctx.strokeStyle = 'rgba(0, 255, 163, 0.25)';
+                            ctx.lineWidth = 1.5;
+                            ctx.stroke();
+                        }
+                    });
+
+                    // Cursor target reticle
+                    ctx.beginPath();
+                    ctx.arc(mouseX, mouseY, 16, 0, Math.PI * 2);
+                    ctx.strokeStyle = 'rgba(0, 229, 255, 0.4)';
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                }
+
+                // Draw Propagating EM Waves for each tower
+                towers.forEach((tower) => {
+                    for (let r = 10; r < 200; r += 40) {
+                        const currentR = (r + t * 25) % 200;
+                        const alpha = Math.max(0, 1 - currentR / 200) * 0.35;
+                        ctx.beginPath();
+                        ctx.arc(tower.x, tower.y, currentR, 0, Math.PI * 2);
+                        ctx.strokeStyle = tower.color;
+                        ctx.globalAlpha = alpha;
+                        ctx.lineWidth = 1.5;
+                        ctx.stroke();
+                    }
+                    ctx.globalAlpha = 1;
+
+                    // Tower Hub
+                    ctx.beginPath();
+                    ctx.arc(tower.x, tower.y, 5, 0, Math.PI * 2);
+                    ctx.fillStyle = tower.color;
+                    ctx.shadowColor = tower.color;
+                    ctx.shadowBlur = 15;
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                });
+
+                requestAnimationFrame(animate);
+            }
+            animate();
+        })();
+
+        // 2. INTERACTIVE DRIVE-TEST SIMULATOR ENGINE (ALPINE.JS)
+        function driveSimulator() {
             return {
-                filter: 'all',
-                items: [
-                    { id: 1, type: 'pci', severity: 'CRITICAL', rule: 'PCI Collision (5G NR)', sectors: 'SITE_01_A ➔ SITE_04_C', details: 'Both share PCI 104 on ARFCN 634000 within 1.2km', resolved: false },
-                    { id: 2, type: 'neighbor', severity: 'WARNING', rule: 'Missing Reciprocal NBR', sectors: 'SITE_02_B ➔ SITE_03_A', details: 'Forward relation exists; Return relation missing in EPT', resolved: false },
-                    { id: 3, type: 'pci', severity: 'WARNING', rule: 'PCI Mod-3 Interference', sectors: 'SITE_01_B ➔ SITE_02_A', details: 'PSS collision causing RS-SINR degradation', resolved: false }
-                ],
-                get unresolvedCount() {
-                    return this.items.filter(i => !i.resolved).length;
+                isRunning: false,
+                carPosition: 40,
+                speed: 65,
+                rsrp: -78,
+                sinr: 22,
+                activeCell: 'SITE_01 (PCI: 104)',
+                targetPCI: 208,
+                handoverAlert: false,
+                servingOpacity: 0.8,
+                targetOpacity: 0.15,
+                interval: null,
+
+                get rsrpPercent() {
+                    return Math.min(100, Math.max(0, ((this.rsrp + 120) / 45) * 100));
                 },
-                get filteredItems() {
-                    if (this.filter === 'all') return this.items;
-                    return this.items.filter(i => i.type === this.filter);
+                get sinrPercent() {
+                    return Math.min(100, Math.max(0, (this.sinr / 30) * 100));
                 },
-                resolveItem(id) {
-                    const item = this.items.find(i => i.id === id);
-                    if (item) {
-                        item.resolved = true;
-                        setTimeout(() => lucide.createIcons(), 50);
+
+                init() {},
+
+                toggleSimulation() {
+                    this.isRunning = !this.isRunning;
+                    if (this.isRunning) {
+                        this.interval = setInterval(() => this.step(), 60);
+                    } else {
+                        clearInterval(this.interval);
                     }
                 },
-                resolveAll() {
-                    this.items.forEach(i => i.resolved = true);
-                    setTimeout(() => lucide.createIcons(), 50);
+
+                resetSimulation() {
+                    this.isRunning = false;
+                    clearInterval(this.interval);
+                    this.carPosition = 40;
+                    this.rsrp = -78;
+                    this.sinr = 22;
+                    this.activeCell = 'SITE_01 (PCI: 104)';
+                    this.handoverAlert = false;
+                    this.servingOpacity = 0.8;
+                    this.targetOpacity = 0.15;
+                },
+
+                step() {
+                    if (this.carPosition < 700) {
+                        this.carPosition += 4;
+                        
+                        // Signal Drop & Handover Event at mid-point (x = 380)
+                        if (this.carPosition < 380) {
+                            this.rsrp = Math.floor(-78 - ((this.carPosition - 40) / 340) * 28);
+                            this.sinr = Math.floor(22 - ((this.carPosition - 40) / 340) * 14);
+                            this.servingOpacity = 0.8;
+                            this.targetOpacity = 0.2;
+                            this.handoverAlert = false;
+                        } else {
+                            // Handover point!
+                            this.activeCell = 'SITE_02 (PCI: 208)';
+                            this.handoverAlert = true;
+                            this.servingOpacity = 0.1;
+                            this.targetOpacity = 0.85;
+                            this.rsrp = Math.floor(-106 + ((this.carPosition - 380) / 320) * 26);
+                            this.sinr = Math.floor(8 + ((this.carPosition - 380) / 320) * 16);
+                        }
+                    } else {
+                        this.resetSimulation();
+                    }
                 }
-            };
+            }
         }
 
-        // 5. Interactive MML Generator Engine
+        // 3. TRANSPILER ENGINE (ALPINE.JS)
         function terminalData() {
             return {
                 vendor: 'huawei',
                 isTyping: false,
                 displayedLines: [],
                 vendors: {
-                    'huawei': 'Huawei',
-                    'ericsson': 'Ericsson',
-                    'nokia': 'Nokia',
-                    'zte': 'ZTE',
+                    'huawei': 'Huawei 5G NR',
+                    'ericsson': 'Ericsson ENM',
+                    'nokia': 'Nokia NetAct',
+                    'zte': 'ZTE U31',
                     'cross_vendor': 'Cross-Vendor',
                     'custom_template': 'Custom CLI'
                 },
                 scripts: {
                     huawei: [
-                        '<span class="text-slate-500">// Huawei 5G NR Automated Neighbor Generation</span>',
-                        'Parsing local cell topology (GNodeB_101)...',
-                        '<span class="text-nexus-glow">ADD NBRREL:</span> LocalCellId=101, TargetCellId=204, NbrType=NR_HANDOVER;',
-                        '<span class="text-nexus-glow">MOD NRCELLFREQREL:</span> LocalCellId=101, SsbFreq=634000;',
-                        '<span class="text-emerald-400">✓ Optimization successful. 0 PCI Conflicts.</span>'
+                        '<span class="text-slate-500">// Transpiling Huawei 5G NR Neighbor Relations</span>',
+                        'ADD NBRREL: LocalCellId=101, TargetCellId=204, NbrType=NR_HANDOVER;',
+                        'MOD NRCELLFREQREL: LocalCellId=101, SsbFreq=634000;',
+                        '<span class="text-cyber-neon">✓ Transpiled in 0.004s • 0 Collisions Verified</span>'
                     ],
                     ericsson: [
-                        '<span class="text-slate-500">// Ericsson ENM Parameter Batch Execution</span>',
-                        'Verifying source & target EUtranCell coordinates...',
-                        '<span class="text-nexus-glow">cnh:</span> EUtranCellFDD=LTE_Site01_A, EUtranCellRelation=LTE_Site02_B;',
-                        '<span class="text-nexus-glow">set:</span> EUtranCellRelation=LTE_Site02_B, isHoAllowed=true;',
-                        '<span class="text-emerald-400">✓ Handover priorities & thresholds injected.</span>'
+                        '<span class="text-slate-500">// Ericsson ENM Vector Execution</span>',
+                        'cnh: EUtranCellFDD=LTE_Site01_A, EUtranCellRelation=LTE_Site02_B;',
+                        'set: EUtranCellRelation=LTE_Site02_B, isHoAllowed=true;',
+                        '<span class="text-cyber-cyan">✓ Priority Threshold Injected</span>'
                     ],
                     nokia: [
-                        '<span class="text-slate-500">// Nokia NetAct Plan Editor Command Set</span>',
-                        'Loading NetAct object manager context...',
-                        '<span class="text-nexus-glow">CREATE LNREL:</span> srcLnbts=104, srcLncell=1, tgtLnbts=208, tgtLncell=3;',
-                        '<span class="text-nexus-glow">SET LNREL:</span> handOverAllowed=true, nrNeighbourType=AUTOMATIC;',
-                        '<span class="text-emerald-400">✓ NetAct parameter plan generated.</span>'
+                        '<span class="text-slate-500">// Nokia NetAct Command Object Plan</span>',
+                        'CREATE LNREL: srcLnbts=104, srcLncell=1, tgtLnbts=208, tgtLncell=3;',
+                        'SET LNREL: handOverAllowed=true, nrNeighbourType=AUTOMATIC;',
+                        '<span class="text-cyber-neon">✓ NetAct Verified Without Error</span>'
                     ],
                     zte: [
-                        '<span class="text-slate-500">// ZTE NetNumen U31 Batch Commands</span>',
-                        'Checking EMS topology parameters...',
-                        '<span class="text-nexus-glow">ADD NRNEIGHBOR:</span> SubNetwork=1, ME=101, NRCellId=1, TgtNRCellId=204;',
-                        '<span class="text-nexus-glow">SET NRFREQ:</span> SubNetwork=1, ME=101, Arfcn=634000;',
-                        '<span class="text-emerald-400">✓ NetNumen batch execution verified.</span>'
+                        '<span class="text-slate-500">// ZTE NetNumen MML Transpilation</span>',
+                        'ADD NRNEIGHBOR: SubNetwork=1, ME=101, NRCellId=1, TgtNRCellId=204;',
+                        '<span class="text-cyber-cyan">✓ Parameter Payload Ready</span>'
                     ],
                     cross_vendor: [
-                        '<span class="text-slate-500">// Cross-Vendor Link: Huawei gNodeB ➔ Ericsson eNodeB</span>',
-                        'Mapping external cell identifiers (PCI: 104, ARFCN: 634000)...',
-                        '<span class="text-nexus-glow">[SRC: Huawei] ADD NBRREL:</span> LocalCellId=101, TargetCellId=204;',
-                        '<span class="text-nexus-glow">[TGT: Ericsson] cnh:</span> EUtranCellFDD=LTE_Site01, EUtranCellRelation=NR_Site02;',
-                        '<span class="text-emerald-400">✓ Cross-vendor parameters validated & mapped.</span>'
+                        '<span class="text-slate-500">// Cross-Vendor: Huawei gNodeB ➔ Ericsson eNodeB</span>',
+                        '[SRC] ADD NBRREL: LocalCellId=101, TargetCellId=204;',
+                        '[TGT] cnh: EUtranCellFDD=LTE_Site01, EUtranCellRelation=NR_Site02;',
+                        '<span class="text-cyber-neon">✓ Bidirectional Link Mapped</span>'
                     ],
                     custom_template: [
-                        '<span class="text-slate-500">// User Custom Template Ruleset</span>',
-                        'Injecting operator variables (${SRC_CELL_ID}, ${TGT_PCI})...',
-                        '<span class="text-nexus-glow">CUSTOM_CMD:</span> --src 101 --tgt 204 --ho-type INTER_VENDOR;',
-                        '<span class="text-nexus-glow">SET_PRIORITY:</span> TargetPci=104, Priority=1;',
-                        '<span class="text-emerald-400">✓ Custom operator template compiled with 0 syntax errors.</span>'
+                        '<span class="text-slate-500">// User Custom CLI Template</span>',
+                        'CUSTOM_NBR_LINK --src 101 --tgt 204 --type INTER_SYSTEM;',
+                        '<span class="text-cyber-neon">✓ 100% Syntax Compliant</span>'
                     ]
                 },
                 changeVendor(v) {
@@ -832,18 +829,16 @@
                     this.displayedLines = [];
                     let lines = this.scripts[this.vendor];
                     let i = 0;
-                    
                     const typeLine = () => {
                         if (i < lines.length) {
                             this.displayedLines.push(lines[i]);
                             i++;
-                            setTimeout(typeLine, Math.random() * 150 + 200);
+                            setTimeout(typeLine, 220);
                         } else {
                             this.isTyping = false;
                         }
                     };
-                    
-                    setTimeout(typeLine, 300);
+                    setTimeout(typeLine, 100);
                 }
             }
         }
