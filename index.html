@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nexus Links | Next-Gen Telecom RF & Network Optimization</title>
     
+    <!-- Scripts & Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -23,30 +24,31 @@
                             500: '#10b981', // Emerald Green
                             600: '#059669', // Dark Emerald
                             glow: '#00ffa3', // Neon Mint
-                            accent: '#f59e0b', // Amber Accent
+                            accent: '#f59e0b', // Amber
+                            cyan: '#06b6d4',
                             dark: '#030712',
-                            panel: '#0a121e'
+                            panel: '#0a121e',
+                            surface: '#0f172a'
                         }
                     },
                     animation: {
                         'gradient-x': 'gradient-x 10s ease infinite',
                         'float': 'float 6s ease-in-out infinite',
-                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'scanline': 'scanline 4s linear infinite'
                     },
                     keyframes: {
                         'gradient-x': {
-                            '0%, 100%': {
-                                'background-size': '200% 200%',
-                                'background-position': 'left center'
-                            },
-                            '50%': {
-                                'background-size': '200% 200%',
-                                'background-position': 'right center'
-                            }
+                            '0%, 100%': { 'background-size': '200% 200%', 'background-position': 'left center' },
+                            '50%': { 'background-size': '200% 200%', 'background-position': 'right center' }
                         },
                         float: {
                             '0%, 100%': { transform: 'translateY(0px)' },
-                            '50%': { transform: 'translateY(-15px)' }
+                            '50%': { transform: 'translateY(-10px)' }
+                        },
+                        scanline: {
+                            '0%': { transform: 'translateY(-100%)' },
+                            '100%': { transform: 'translateY(1000%)' }
                         }
                     }
                 }
@@ -56,18 +58,15 @@
 
     <style>
         body { background-color: #030712; }
-        
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #030712; }
         ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #10b981; }
 
-        /* Glass & Glow Effects */
         .glass-nav {
-            background: rgba(3, 7, 18, 0.7);
+            background: rgba(3, 7, 18, 0.85);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
         }
         .text-gradient {
             background-clip: text;
@@ -75,7 +74,6 @@
             -webkit-text-fill-color: transparent;
         }
         
-        /* Particle Canvas Wrapper */
         #particles-js {
             position: absolute;
             width: 100%;
@@ -85,199 +83,402 @@
             z-index: 0;
         }
         
-        /* Animated Gradient Backgrounds */
         .bg-animated-gradient {
-            background: linear-gradient(-45deg, rgba(16, 185, 129, 0.15), rgba(0, 255, 163, 0.15), rgba(3, 7, 18, 1), rgba(3, 7, 18, 1));
-            background-size: 400% 400%;
-            animation: gradient-x 15s ease infinite;
+            background: radial-gradient(circle at 50% 20%, rgba(16, 185, 129, 0.12), transparent 60%),
+                        radial-gradient(circle at 80% 60%, rgba(6, 182, 212, 0.08), transparent 50%),
+                        #030712;
         }
 
         .btn-glow {
             transition: all 0.3s ease;
         }
         .btn-glow:hover {
-            box-shadow: 0 0 25px rgba(0, 255, 163, 0.5), 0 0 50px rgba(16, 185, 129, 0.3);
-            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(0, 255, 163, 0.45), 0 0 50px rgba(16, 185, 129, 0.2);
+            transform: scale(1.03);
+        }
+
+        .radar-grid {
+            background-size: 30px 30px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
         }
     </style>
 </head>
 <body class="text-slate-200 font-sans antialiased overflow-x-hidden selection:bg-nexus-glow selection:text-nexus-dark">
 
+    <!-- NAVIGATION BAR -->
     <header class="fixed top-0 left-0 right-0 z-50 glass-nav transition-all duration-300">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
             <a href="#" class="flex items-center gap-3 group z-10">
                 <div class="relative w-10 h-10 rounded-xl bg-gradient-to-tr from-nexus-500 to-nexus-glow p-0.5 flex items-center justify-center animate-pulse-slow">
                     <div class="w-full h-full bg-nexus-dark rounded-[10px] flex items-center justify-center">
-                        <i data-lucide="share-2" class="w-5 h-5 text-nexus-glow group-hover:rotate-180 transition-transform duration-700"></i>
+                        <i data-lucide="radio" class="w-5 h-5 text-nexus-glow group-hover:rotate-45 transition-transform duration-500"></i>
                     </div>
                 </div>
                 <div class="flex flex-col">
-                    <span class="font-bold text-xl tracking-wider text-white">NEXUS<span class="text-nexus-glow">LINKS</span></span>
-                    <span class="text-[9px] tracking-[0.2em] text-slate-400 uppercase -mt-1">RF Intelligence Suite</span>
+                    <span class="font-black text-xl tracking-wider text-white">NEXUS<span class="text-nexus-glow">LINKS</span></span>
+                    <span class="text-[9px] tracking-[0.25em] text-slate-400 uppercase -mt-1 font-mono">RF Intelligence Suite</span>
                 </div>
             </a>
 
-            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300 z-10">
-                <a href="#features" class="hover:text-nexus-glow transition-colors">Capabilities</a>
-                <a href="#gis-map" class="hover:text-nexus-500 transition-colors">Interactive GIS</a>
-                <a href="#mml-generator" class="hover:text-nexus-glow transition-colors">MML Engine</a>
+            <nav class="hidden lg:flex items-center gap-8 text-sm font-medium text-slate-300 z-10">
+                <a href="#pipeline" class="hover:text-nexus-glow transition-colors">How It Works</a>
+                <a href="#interactive-map" class="hover:text-nexus-glow transition-colors">Interactive GIS</a>
+                <a href="#audit-demo" class="hover:text-nexus-glow transition-colors">Integrity Audit</a>
+                <a href="#mml-generator" class="hover:text-nexus-glow transition-colors">MML Script Engine</a>
+                <a href="#comparison" class="hover:text-nexus-glow transition-colors">ROI vs Excel</a>
             </nav>
 
-            <div class="z-10">
-                <a href="#contact" class="btn-glow relative px-6 py-2.5 rounded-xl font-semibold text-sm bg-gradient-to-r from-nexus-500 to-nexus-glow text-nexus-dark flex items-center gap-2">
+            <div class="z-10 flex items-center gap-4">
+                <a href="#contact" class="btn-glow relative px-6 py-2.5 rounded-xl font-bold text-sm bg-gradient-to-r from-nexus-500 to-nexus-glow text-nexus-dark flex items-center gap-2">
                     Request Demo <i data-lucide="arrow-right" class="w-4 h-4"></i>
                 </a>
             </div>
         </div>
     </header>
 
-    <section class="relative min-h-screen flex items-center justify-center bg-animated-gradient overflow-hidden pt-20">
+    <!-- HERO SECTION WITH REALISTIC RF WORKSTATION PREVIEW -->
+    <section class="relative min-h-screen flex items-center justify-center bg-animated-gradient overflow-hidden pt-28 pb-20">
         <div id="particles-js"></div>
         
         <div class="max-w-7xl mx-auto px-6 relative z-10 grid lg:grid-cols-12 gap-12 items-center">
             
-            <div class="lg:col-span-7 text-center lg:text-left space-y-8" data-aos="fade-right" data-aos-duration="1000">
-                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-nexus-glow backdrop-blur-md">
+            <div class="lg:col-span-6 text-center lg:text-left space-y-8" data-aos="fade-right" data-aos-duration="1000">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-xs font-semibold text-nexus-glow backdrop-blur-md">
                     <span class="w-2 h-2 rounded-full bg-nexus-glow animate-ping"></span>
-                    Now Live: 5G NR Automated Provisioning
+                    Multi-RAT Ready: 2G • 3G • 4G LTE • 5G NR
                 </div>
 
-                <h1 class="text-5xl md:text-7xl font-black tracking-tight leading-[1.1] text-white">
-                    Automate Your RF <br>
-                    <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-lime-400 text-gradient">Neighbor Relations</span>
+                <h1 class="text-4xl sm:text-6xl lg:text-6xl font-black tracking-tight leading-[1.1] text-white">
+                    Automate Cellular <br>
+                    <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-nexus-glow text-gradient">Neighbor Relations</span>
+                    <br>In Seconds.
                 </h1>
 
-                <p class="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto lg:mx-0 font-light leading-relaxed">
-                    Eliminate dropped calls and handover failures. Nexus Links visualizes telecom topology, calculates optimal cell vectors, and instantly generates MML scripts for 2G through 5G.
+                <p class="text-base sm:text-lg text-slate-300 max-w-xl mx-auto lg:mx-0 font-normal leading-relaxed">
+                    Eliminate manual spreadsheet planning and handover dropped calls. Nexus Links calculates azimuths, beamwidths, and spatial distances to automatically configure neighbors and export vendor-certified MML scripts.
                 </p>
 
-                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
                     <a href="#contact" class="btn-glow w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-nexus-500 to-nexus-glow text-nexus-dark font-extrabold text-base flex items-center justify-center gap-3">
                         <i data-lucide="calendar" class="w-5 h-5"></i> Schedule Live Demo
                     </a>
-                    <a href="#features" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 backdrop-blur-md text-white font-semibold text-base transition-all flex items-center justify-center gap-2">
-                        <i data-lucide="cpu" class="w-5 h-5 text-nexus-glow"></i> Explore Engine
+                    <a href="#interactive-map" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 backdrop-blur-md text-white font-semibold text-base transition-all flex items-center justify-center gap-2">
+                        <i data-lucide="map-pin" class="w-5 h-5 text-nexus-glow"></i> Test Interactive Map
                     </a>
                 </div>
+
+                <!-- METRICS STRIP -->
+                <div class="grid grid-cols-3 gap-4 pt-4 border-t border-white/10">
+                    <div>
+                        <div class="text-2xl sm:text-3xl font-black text-white">10x</div>
+                        <div class="text-xs text-slate-400 uppercase tracking-wider font-mono">Faster Scripting</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl sm:text-3xl font-black text-nexus-glow">99.4%</div>
+                        <div class="text-xs text-slate-400 uppercase tracking-wider font-mono">Handover Target</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl sm:text-3xl font-black text-cyan-400">100%</div>
+                        <div class="text-xs text-slate-400 uppercase tracking-wider font-mono">Client-Side Privacy</div>
+                    </div>
+                </div>
             </div>
 
-            <div class="lg:col-span-5 relative" data-aos="fade-left" data-aos-duration="1200" data-aos-delay="200">
-                <div class="relative w-full aspect-square max-w-[500px] mx-auto animate-float">
+            <!-- HERO RIGHT: REALISTIC TELECOM RF WORKSTATION MOCKUP -->
+            <div class="lg:col-span-6 relative" data-aos="fade-left" data-aos-duration="1200">
+                <div class="relative w-full rounded-2xl bg-slate-950 border border-slate-700/80 shadow-[0_0_60px_rgba(16,185,129,0.15)] overflow-hidden animate-float">
                     
-                    <div class="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-3xl backdrop-blur-xl border border-white/20 p-6 flex flex-col justify-between shadow-[0_0_50px_rgba(16,185,129,0.2)]">
-                        <div class="flex justify-between items-center border-b border-white/10 pb-4">
-                            <div class="flex gap-2">
-                                <div class="w-3 h-3 rounded-full bg-rose-500"></div>
-                                <div class="w-3 h-3 rounded-full bg-amber-500"></div>
-                                <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
-                            </div>
-                            <span class="text-xs font-mono text-nexus-glow">NEXUS_GIS_ACTIVE</span>
+                    <div class="px-4 py-3 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-rose-500/80"></span>
+                            <span class="w-3 h-3 rounded-full bg-amber-500/80"></span>
+                            <span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
+                            <span class="ml-3 text-xs font-mono text-slate-400 font-semibold">NexusLinks_Workspace.gis</span>
                         </div>
+                        <div class="flex items-center gap-3 text-[11px] font-mono">
+                            <span class="text-emerald-400 bg-emerald-950/60 border border-emerald-500/30 px-2 py-0.5 rounded">AUTO_ANR: ON</span>
+                            <span class="text-slate-400">CELLS: 1,566</span>
+                        </div>
+                    </div>
+
+                    <div class="relative h-[360px] bg-[#070d19] radar-grid overflow-hidden p-4">
                         
-                        <div class="relative flex-grow flex items-center justify-center">
-                            <div class="absolute w-full h-full rounded-full border border-nexus-500/30 animate-[ping_3s_linear_infinite]"></div>
-                            <div class="absolute w-3/4 h-3/4 rounded-full border border-nexus-glow/30 animate-[ping_2s_linear_infinite]"></div>
-                            
-                            <div class="relative z-10 w-16 h-16 rounded-2xl bg-gradient-to-br from-nexus-500 to-nexus-glow flex items-center justify-center shadow-[0_0_30px_rgba(0,255,163,0.5)]">
-                                <i data-lucide="radio-tower" class="w-8 h-8 text-nexus-dark"></i>
-                            </div>
+                        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-emerald-500/5 to-transparent h-16 w-full animate-scanline pointer-events-none"></div>
 
-                            <div class="absolute top-4 left-4 bg-slate-900/80 border border-nexus-glow/50 p-2 rounded-lg text-[10px] text-nexus-glow font-mono flex items-center gap-2 backdrop-blur-md">
-                                <i data-lucide="link" class="w-3 h-3"></i> PCI: 104 (5G)
+                        <!-- Source Site A -->
+                        <div class="absolute top-28 left-20 z-20">
+                            <div class="absolute w-24 h-24 -top-20 -left-6 bg-emerald-500/20 border-l border-r border-emerald-400/40 origin-bottom transform rotate-0" style="clip-path: polygon(50% 100%, 0 0, 100% 0);"></div>
+                            <div class="absolute w-24 h-24 -top-6 -left-6 bg-emerald-500/30 border-l border-r border-emerald-400/60 origin-bottom transform rotate-120" style="clip-path: polygon(50% 100%, 0 0, 100% 0);"></div>
+                            <div class="absolute w-24 h-24 -top-6 -left-6 bg-emerald-500/20 border-l border-r border-emerald-400/40 origin-bottom transform rotate-240" style="clip-path: polygon(50% 100%, 0 0, 100% 0);"></div>
+                            
+                            <div class="relative w-7 h-7 rounded-full bg-emerald-500 flex items-center justify-center text-black font-black text-[10px] shadow-[0_0_20px_#00ffa3] cursor-pointer">
+                                A
                             </div>
-                            <div class="absolute bottom-10 right-4 bg-slate-900/80 border border-nexus-500/50 p-2 rounded-lg text-[10px] text-nexus-500 font-mono flex items-center gap-2 backdrop-blur-md">
-                                <i data-lucide="check-circle" class="w-3 h-3"></i> Handover Valid
+                            <span class="absolute top-8 -left-4 text-[10px] font-mono font-bold text-white bg-black/80 px-1.5 py-0.5 rounded border border-white/10">SITE_01_NR</span>
+                        </div>
+
+                        <!-- Target Site B -->
+                        <div class="absolute top-44 right-28 z-20">
+                            <div class="absolute w-20 h-20 -top-16 -left-6 bg-cyan-500/20 border-l border-r border-cyan-400/40 origin-bottom transform -rotate-45" style="clip-path: polygon(50% 100%, 0 0, 100% 0);"></div>
+                            <div class="relative w-6 h-6 rounded-full bg-cyan-400 flex items-center justify-center text-black font-black text-[9px] shadow-[0_0_15px_#06b6d4]">
+                                B
                             </div>
+                            <span class="absolute top-7 -left-3 text-[10px] font-mono text-slate-300 bg-black/80 px-1.5 py-0.5 rounded border border-white/10">SITE_02_LTE</span>
+                        </div>
+
+                        <!-- Handover Line Vector -->
+                        <svg class="absolute inset-0 w-full h-full pointer-events-none z-10">
+                            <line x1="120" y1="140" x2="380" y2="190" stroke="#00ffa3" stroke-width="2" stroke-dasharray="6,4" />
+                            <circle cx="250" cy="165" r="4" fill="#00ffa3" class="animate-ping" />
+                        </svg>
+
+                        <!-- Live GIS Inspector Floating Card -->
+                        <div class="absolute bottom-4 left-4 right-4 bg-slate-900/90 backdrop-blur-md p-3 rounded-xl border border-white/10 grid grid-cols-4 gap-2 text-center text-xs font-mono">
+                            <div class="border-r border-white/10">
+                                <div class="text-slate-400 text-[9px]">DISTANCE</div>
+                                <div class="text-white font-bold">1.42 km</div>
+                            </div>
+                            <div class="border-r border-white/10">
+                                <div class="text-slate-400 text-[9px]">AZIMUTH / BEAM</div>
+                                <div class="text-emerald-400 font-bold">120° / 65°</div>
+                            </div>
+                            <div class="border-r border-white/10">
+                                <div class="text-slate-400 text-[9px]">SOURCE PCI</div>
+                                <div class="text-nexus-glow font-bold">104 (5G)</div>
+                            </div>
+                            <div>
+                                <div class="text-slate-400 text-[9px]">HANDOVER</div>
+                                <div class="text-emerald-400 font-bold flex items-center justify-center gap-1">
+                                    <i data-lucide="check" class="w-3 h-3"></i> OPTIMAL
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 4-STEP WORKFLOW PIPELINE -->
+    <section id="pipeline" class="py-24 bg-slate-950 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs font-mono uppercase tracking-[0.2em] text-nexus-glow">Architecture & Workflow</span>
+                <h2 class="text-3xl md:text-5xl font-black text-white mt-2">From Raw Data to Commissioned Sites in 4 Steps</h2>
+            </div>
+
+            <div class="grid md:grid-cols-4 gap-6">
+                
+                <div class="p-6 rounded-2xl bg-nexus-panel border border-white/5 relative">
+                    <div class="w-10 h-10 rounded-lg bg-emerald-500/20 text-emerald-400 font-mono font-bold flex items-center justify-center mb-4">01</div>
+                    <h3 class="text-lg font-bold text-white mb-2">Ingest Excel / EPT</h3>
+                    <p class="text-sm text-slate-400">Drag & drop raw engineering parameter templates (2G GCELL, LTE, 5G NR). Parses client-side in milliseconds.</p>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-nexus-panel border border-white/5 relative">
+                    <div class="w-10 h-10 rounded-lg bg-cyan-500/20 text-cyan-400 font-mono font-bold flex items-center justify-center mb-4">02</div>
+                    <h3 class="text-lg font-bold text-white mb-2">Spatial ANR Engine</h3>
+                    <p class="text-sm text-slate-400">Algorithmic Haversine distance, azimuth orientation, and beam overlap rank candidates automatically.</p>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-nexus-panel border border-white/5 relative">
+                    <div class="w-10 h-10 rounded-lg bg-amber-500/20 text-amber-400 font-mono font-bold flex items-center justify-center mb-4">03</div>
+                    <h3 class="text-lg font-bold text-white mb-2">Conflict Auditing</h3>
+                    <p class="text-sm text-slate-400">Detects duplicate PCIs, missing reciprocal relations, and frequency collisions before pushing live.</p>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-nexus-panel border border-nexus-glow/30 relative shadow-[0_0_25px_rgba(0,255,163,0.1)]">
+                    <div class="w-10 h-10 rounded-lg bg-nexus-glow text-black font-mono font-bold flex items-center justify-center mb-4">04</div>
+                    <h3 class="text-lg font-bold text-white mb-2">Vendor MML Export</h3>
+                    <p class="text-sm text-slate-400">One-click compile into exact syntax for Huawei, Ericsson, Nokia, ZTE, or custom operator CLI.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE GIS DEMO PREVIEW -->
+    <section id="interactive-map" class="py-24 bg-nexus-dark" x-data="{ selectedSector: 'Sector 2 (East)', azimuth: 120, neighbors: 5, status: 'Optimal' }">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-nexus-glow bg-nexus-glow/10 px-3 py-1 rounded-full border border-nexus-glow/20">
+                        <i data-lucide="layers" class="w-4 h-4"></i> Interactive GIS Experience
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl font-black text-white">Full Geospatial Control Right in Your Browser</h2>
+                    <p class="text-slate-400 text-base leading-relaxed">
+                        Visualize cell wedges with real horizontal beamwidth calculations, measurement rulers, elevation profiles, and hex-grid spatial clustering.
+                    </p>
+
+                    <!-- Interactive Selector Buttons -->
+                    <div class="space-y-3 pt-2">
+                        <div class="text-xs font-mono text-slate-400 uppercase">Select A Test Sector:</div>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button @click="selectedSector = 'Sector 1 (North)'; azimuth = 0; neighbors = 3; status = 'Optimal'" 
+                                    :class="selectedSector.includes('North') ? 'bg-nexus-glow text-black font-bold' : 'bg-slate-800 text-slate-300'"
+                                    class="py-2 px-3 rounded-lg text-xs font-mono transition-all">Sec 1 (0°)</button>
+                            <button @click="selectedSector = 'Sector 2 (East)'; azimuth = 120; neighbors = 5; status = 'Optimal'" 
+                                    :class="selectedSector.includes('East') ? 'bg-nexus-glow text-black font-bold' : 'bg-slate-800 text-slate-300'"
+                                    class="py-2 px-3 rounded-lg text-xs font-mono transition-all">Sec 2 (120°)</button>
+                            <button @click="selectedSector = 'Sector 3 (West)'; azimuth = 240; neighbors = 2; status = 'Missing Reciprocal'" 
+                                    :class="selectedSector.includes('West') ? 'bg-amber-400 text-black font-bold' : 'bg-slate-800 text-slate-300'"
+                                    class="py-2 px-3 rounded-lg text-xs font-mono transition-all">Sec 3 (240°)</button>
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-slate-900 border border-white/10 font-mono text-xs space-y-2">
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Current Target:</span>
+                            <span class="text-white font-bold" x-text="selectedSector"></span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Calculated Azimuth:</span>
+                            <span class="text-nexus-glow font-bold" x-text="azimuth + '°'"></span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Recommended NBRs:</span>
+                            <span class="text-white font-bold" x-text="neighbors + ' Cells'"></span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Integrity Check:</span>
+                            <span :class="status === 'Optimal' ? 'text-emerald-400' : 'text-amber-400'" class="font-bold" x-text="status"></span>
                         </div>
                     </div>
                 </div>
-            </div>
 
+                <div class="lg:col-span-7">
+                    <div class="rounded-2xl border border-slate-700 bg-slate-900 p-2 shadow-2xl relative">
+                        <div class="rounded-xl overflow-hidden relative h-[380px] bg-[#050b14] radar-grid flex items-center justify-center">
+                            
+                            <!-- Dynamic Tower & Wedge Simulation -->
+                            <div class="relative">
+                                <div class="w-36 h-36 bg-gradient-to-t from-nexus-glow/40 to-transparent border-l border-r border-nexus-glow origin-bottom transition-transform duration-500"
+                                     :style="`transform: rotate(${azimuth}deg); clip-path: polygon(50% 100%, 0 0, 100% 0);`"></div>
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <div class="w-10 h-10 rounded-full bg-nexus-glow text-black font-black flex items-center justify-center shadow-[0_0_30px_#00ffa3]">
+                                        <i data-lucide="radio" class="w-5 h-5"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="absolute top-4 left-4 bg-slate-900/90 border border-white/10 px-3 py-1.5 rounded-lg text-xs font-mono text-slate-300">
+                                <span class="text-nexus-glow font-bold">GIS Live View:</span> Sector Beam Simulation
+                            </div>
+
+                            <div class="absolute bottom-4 right-4 bg-black/80 border border-white/10 px-3 py-1.5 rounded-lg text-[10px] font-mono text-slate-400">
+                                Projection: EPSG:4326 (WGS84)
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </section>
 
-    <section id="features" class="py-32 relative bg-nexus-dark">
+    <!-- INTERACTIVE INTEGRITY AUDIT & CONFLICT INSPECTOR -->
+    <section id="audit-demo" class="py-24 bg-slate-950 border-t border-white/5" x-data="auditData()">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center max-w-3xl mx-auto mb-20" data-aos="fade-up">
-                <h2 class="text-xs font-bold uppercase tracking-[0.2em] text-nexus-glow mb-4">Core Capabilities</h2>
-                <p class="text-4xl md:text-5xl font-bold text-white tracking-tight mb-6">Built for High-Density Networks</p>
-                <div class="w-24 h-1 bg-gradient-to-r from-nexus-500 to-nexus-glow mx-auto rounded-full"></div>
+            
+            <div class="text-center max-w-3xl mx-auto mb-16" data-aos="fade-up">
+                <div class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-amber-400 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20 mb-3">
+                    <i data-lucide="shield-alert" class="w-4 h-4"></i> Automated Quality Assurance
+                </div>
+                <h2 class="text-3xl md:text-5xl font-black text-white">Continuous Parameter Integrity Audit</h2>
+                <p class="text-slate-400 text-sm sm:text-base mt-4">
+                    Catch costly RF planning errors before scripts are loaded to the Element Manager. Test the interactive conflict engine below:
+                </p>
             </div>
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="bg-nexus-panel/90 border border-slate-700/80 rounded-2xl p-6 md:p-8 shadow-2xl backdrop-blur-xl">
                 
-                <div class="feature-card bg-nexus-panel p-8 rounded-2xl border border-white/5 shadow-xl relative overflow-hidden group cursor-pointer" data-tilt data-tilt-glare data-tilt-max-glare="0.2" data-aos="fade-up" data-aos-delay="100">
-                    <div class="absolute -right-10 -top-10 w-32 h-32 bg-nexus-500/20 rounded-full blur-2xl group-hover:bg-nexus-glow/30 transition-colors"></div>
-                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-nexus-500/20 to-nexus-glow/20 border border-nexus-glow/30 flex items-center justify-center text-nexus-glow mb-6">
-                        <i data-lucide="cpu" class="w-7 h-7"></i>
+                <!-- Audit Header Controls -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-white/10">
+                    <div class="flex items-center gap-3">
+                        <div class="w-3 h-3 rounded-full bg-amber-400 animate-ping"></div>
+                        <span class="text-sm font-mono text-slate-300">
+                            Cluster: <strong class="text-white">REGION_NORTH_5G</strong> 
+                            (<span x-text="unresolvedCount" class="text-amber-400 font-bold"></span> Conflicts Detected)
+                        </span>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-3">Algorithmic NBR Calculation</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">
-                        Evaluates distance, antenna azimuths, and horizontal beamwidths to automatically generate optimal neighbor relations without human error.
-                    </p>
+
+                    <div class="flex flex-wrap items-center gap-2">
+                        <!-- Filter Buttons -->
+                        <button @click="filter = 'all'" :class="filter === 'all' ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-white'" class="px-3 py-1.5 rounded-lg text-xs font-mono transition-colors">All</button>
+                        <button @click="filter = 'pci'" :class="filter === 'pci' ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-white'" class="px-3 py-1.5 rounded-lg text-xs font-mono transition-colors">PCI Collisions</button>
+                        <button @click="filter = 'neighbor'" :class="filter === 'neighbor' ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-white'" class="px-3 py-1.5 rounded-lg text-xs font-mono transition-colors">Missing NBR</button>
+                        
+                        <!-- 1-Click Auto-Fix Button -->
+                        <button @click="resolveAll()" class="btn-glow ml-2 px-4 py-1.5 rounded-lg bg-gradient-to-r from-nexus-500 to-nexus-glow text-nexus-dark font-bold text-xs font-mono flex items-center gap-1.5">
+                            <i data-lucide="wand-2" class="w-3.5 h-3.5"></i> 1-Click Auto-Fix All
+                        </button>
+                    </div>
                 </div>
 
-                <div id="gis-map" class="feature-card bg-nexus-panel p-8 rounded-2xl border border-white/5 shadow-xl relative overflow-hidden group cursor-pointer" data-tilt data-tilt-glare data-tilt-max-glare="0.2" data-aos="fade-up" data-aos-delay="200">
-                    <div class="absolute -right-10 -top-10 w-32 h-32 bg-nexus-500/20 rounded-full blur-2xl group-hover:bg-nexus-glow/30 transition-colors"></div>
-                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-nexus-500/20 to-nexus-glow/20 border border-nexus-glow/30 flex items-center justify-center text-nexus-glow mb-6">
-                        <i data-lucide="map" class="w-7 h-7"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-3">Interactive GIS Visualization</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">
-                        GPU-accelerated mapping displays cell towers, sector wedges, elevation profiles, and coverage boundaries directly in your browser.
-                    </p>
+                <!-- Conflict Table -->
+                <div class="overflow-x-auto mt-4">
+                    <table class="w-full text-left font-mono text-xs">
+                        <thead>
+                            <tr class="text-slate-500 border-b border-white/5 uppercase">
+                                <th class="py-3 px-4">Severity</th>
+                                <th class="py-3 px-4">Rule Violation</th>
+                                <th class="py-3 px-4">Affected Sectors</th>
+                                <th class="py-3 px-4">Detected Clash</th>
+                                <th class="py-3 px-4 text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-white/5">
+                            <template x-for="(item, index) in filteredItems" :key="item.id">
+                                <tr class="hover:bg-white/[0.02] transition-colors">
+                                    <td class="py-4 px-4">
+                                        <span :class="item.severity === 'CRITICAL' ? 'bg-rose-500/20 text-rose-400 border-rose-500/30' : 'bg-amber-500/20 text-amber-400 border-amber-500/30'"
+                                              class="px-2 py-0.5 rounded border text-[10px] font-bold" x-text="item.severity"></span>
+                                    </td>
+                                    <td class="py-4 px-4 font-bold text-white" x-text="item.rule"></td>
+                                    <td class="py-4 px-4 text-slate-300" x-text="item.sectors"></td>
+                                    <td class="py-4 px-4 text-slate-400" x-text="item.details"></td>
+                                    <td class="py-4 px-4 text-right">
+                                        <template x-if="!item.resolved">
+                                            <button @click="resolveItem(item.id)" class="px-3 py-1 rounded bg-slate-800 hover:bg-emerald-500/20 hover:text-emerald-400 border border-white/10 text-[11px] text-slate-300 transition-all">
+                                                Resolve Conflict
+                                            </button>
+                                        </template>
+                                        <template x-if="item.resolved">
+                                            <span class="text-emerald-400 inline-flex items-center gap-1 font-bold text-[11px]">
+                                                <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i> Fixed & Ready
+                                            </span>
+                                        </template>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
                 </div>
 
-                <div class="feature-card bg-nexus-panel p-8 rounded-2xl border border-white/5 shadow-xl relative overflow-hidden group cursor-pointer" data-tilt data-tilt-glare data-tilt-max-glare="0.2" data-aos="fade-up" data-aos-delay="300">
-                    <div class="absolute -right-10 -top-10 w-32 h-32 bg-nexus-500/20 rounded-full blur-2xl group-hover:bg-nexus-glow/30 transition-colors"></div>
-                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-nexus-500/20 to-nexus-glow/20 border border-nexus-glow/30 flex items-center justify-center text-nexus-glow mb-6">
-                        <i data-lucide="activity" class="w-7 h-7"></i>
+                <!-- Audit Footer Summary -->
+                <div class="mt-6 pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 font-mono gap-3">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="shield-check" class="w-4 h-4 text-nexus-glow"></i>
+                        Checks 14 rules including BCCH/BSIC reuse, PCI mod 3/30, and antenna overshoots.
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-3">Drive Test Playback</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">
-                        Ingest field GPS logs to replay real-world signal strength (RSRP, SINR) along vehicle routes to verify network quality post-deployment.
-                    </p>
+                    <div class="text-slate-500">
+                        Scan Engine: v4.2 • Client-Side Execution
+                    </div>
                 </div>
 
-                <div class="feature-card bg-nexus-panel p-8 rounded-2xl border border-white/5 shadow-xl relative overflow-hidden group cursor-pointer" data-tilt data-tilt-glare data-tilt-max-glare="0.2" data-aos="fade-up" data-aos-delay="400">
-                    <div class="absolute -right-10 -top-10 w-32 h-32 bg-nexus-500/20 rounded-full blur-2xl group-hover:bg-nexus-glow/30 transition-colors"></div>
-                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-nexus-500/20 to-nexus-glow/20 border border-nexus-glow/30 flex items-center justify-center text-nexus-glow mb-6">
-                        <i data-lucide="shield-alert" class="w-7 h-7"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-3">Data Integrity Auditing</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">
-                        Automatically audits raw network planning spreadsheets to detect frequency clashes, duplicate PCIs, and missing relations.
-                    </p>
-                </div>
-
-                <div class="feature-card bg-nexus-panel p-8 rounded-2xl border border-white/5 shadow-xl relative overflow-hidden group cursor-pointer" data-tilt data-tilt-glare data-tilt-max-glare="0.2" data-aos="fade-up" data-aos-delay="500">
-                    <div class="absolute -right-10 -top-10 w-32 h-32 bg-nexus-500/20 rounded-full blur-2xl group-hover:bg-nexus-glow/30 transition-colors"></div>
-                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-nexus-500/20 to-nexus-glow/20 border border-nexus-glow/30 flex items-center justify-center text-nexus-glow mb-6">
-                        <i data-lucide="users" class="w-7 h-7"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-3">Complaint Geotagging</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">
-                        Map customer network issues and link them directly to the serving cell towers to radically speed up troubleshooting efforts.
-                    </p>
-                </div>
-
-                <div class="feature-card bg-nexus-panel p-8 rounded-2xl border border-white/5 shadow-xl relative overflow-hidden group cursor-pointer" data-tilt data-tilt-glare data-tilt-max-glare="0.2" data-aos="fade-up" data-aos-delay="600">
-                    <div class="absolute -right-10 -top-10 w-32 h-32 bg-nexus-500/20 rounded-full blur-2xl group-hover:bg-nexus-glow/30 transition-colors"></div>
-                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-nexus-500/20 to-nexus-glow/20 border border-nexus-glow/30 flex items-center justify-center text-nexus-glow mb-6">
-                        <i data-lucide="lock" class="w-7 h-7"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-3">Fast & Secure Architecture</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">
-                        Runs lightning-fast with complete data privacy, allowing engineers to work with sensitive network topologies without security concerns.
-                    </p>
-                </div>
             </div>
+
         </div>
     </section>
 
-    <section id="mml-generator" class="py-32 bg-slate-900/50 border-y border-white/5 relative">
-        <div class="absolute right-0 top-0 w-1/2 h-full bg-gradient-to-l from-nexus-500/5 to-transparent pointer-events-none"></div>
-        
+    <!-- MML SCRIPT GENERATOR -->
+    <section id="mml-generator" class="py-24 bg-slate-900/60 border-y border-white/5 relative">
         <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-16 items-center" 
              x-data="terminalData()" x-init="typeOut()">
             
@@ -286,48 +487,48 @@
                     <i data-lucide="terminal" class="w-4 h-4"></i> Vendor CLI & Custom Templates
                 </div>
                 
-                <h2 class="text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight">
-                    Multi-Vendor & Custom Script Engine
+                <h2 class="text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">
+                    Multi-Vendor MML Generation
                 </h2>
                 
-                <p class="text-slate-400 text-lg leading-relaxed">
-                    Select your equipment vendor or build <span class="text-white font-semibold">custom CLI templates</span> and cross-vendor handover scripts matching your operator's exact naming conventions and parameter rules.
+                <p class="text-slate-400 text-base leading-relaxed">
+                    Select your equipment vendor or build <span class="text-white font-semibold">custom CLI templates</span> to export syntax matching your operator's exact naming conventions.
                 </p>
 
-                <!-- 6 Buttons Grid: Huawei, Ericsson, Nokia, ZTE, Cross-Vendor, Custom Template -->
-                <div class="grid grid-cols-2 gap-3.5">
+                <!-- 6 Buttons Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
                     <template x-for="(label, key) in vendors" :key="key">
                         <button @click="changeVendor(key)" 
                                 :class="vendor === key ? 'bg-gradient-to-r from-nexus-500 to-nexus-glow text-nexus-dark font-bold shadow-[0_0_20px_rgba(0,255,163,0.3)]' : 'bg-slate-800 text-slate-300 hover:bg-slate-700 border border-white/5'" 
-                                class="px-4 py-3.5 rounded-xl text-xs sm:text-sm font-medium transition-all duration-300 flex items-center justify-center text-center">
+                                class="px-3 py-3 rounded-xl text-xs font-medium transition-all duration-300 flex items-center justify-center text-center">
                             <span x-text="label"></span>
                         </button>
                     </template>
                 </div>
 
                 <div class="pt-2 flex flex-wrap gap-4 text-xs font-mono text-slate-400 border-t border-white/10">
-                    <span class="flex items-center gap-1.5"><i data-lucide="arrow-left-right" class="w-3.5 h-3.5 text-nexus-glow"></i> Cross-Vendor Handovers</span>
-                    <span class="flex items-center gap-1.5"><i data-lucide="file-code" class="w-3.5 h-3.5 text-nexus-glow"></i> Custom Syntax Templates</span>
-                    <span class="flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-nexus-glow"></i> Auto-Parameter Mapping</span>
+                    <span class="flex items-center gap-1.5"><i data-lucide="arrow-left-right" class="w-3.5 h-3.5 text-nexus-glow"></i> Cross-Vendor Links</span>
+                    <span class="flex items-center gap-1.5"><i data-lucide="file-code" class="w-3.5 h-3.5 text-nexus-glow"></i> Custom Syntax</span>
+                    <span class="flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-nexus-glow"></i> Zero Collisions</span>
                 </div>
             </div>
 
             <div class="lg:col-span-7" data-aos="zoom-in-left">
-                <div class="rounded-2xl bg-black border border-slate-700 overflow-hidden shadow-2xl relative" data-tilt data-tilt-max="2" data-tilt-speed="400">
+                <div class="rounded-2xl bg-black border border-slate-700 overflow-hidden shadow-2xl relative">
                     
                     <div class="px-4 py-3 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
                         <div class="flex items-center gap-2">
                             <span class="w-3 h-3 rounded-full bg-rose-500"></span>
                             <span class="w-3 h-3 rounded-full bg-amber-500"></span>
                             <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
-                            <span class="ml-3 text-xs font-mono text-slate-500">nexus_compiler.sh</span>
+                            <span class="ml-3 text-xs font-mono text-slate-400 font-semibold">nexus_compiler.sh</span>
                         </div>
                         <div class="flex items-center gap-2 text-xs font-mono text-nexus-glow">
-                            <span class="animate-pulse">●</span> LIVE
+                            <span class="animate-pulse">●</span> READY TO EXPORT
                         </div>
                     </div>
 
-                    <div class="p-6 font-mono text-sm md:text-base space-y-3 min-h-[320px] bg-black/80 relative">
+                    <div class="p-6 font-mono text-xs sm:text-sm space-y-3 min-h-[300px] bg-black/90 relative">
                         <template x-for="line in displayedLines">
                             <div class="flex">
                                 <span class="text-slate-600 mr-4 select-none">></span>
@@ -336,7 +537,7 @@
                         </template>
                         <div x-show="isTyping" class="flex items-center mt-2">
                             <span class="text-slate-600 mr-4">></span>
-                            <span class="w-2.5 h-5 bg-nexus-glow animate-pulse"></span>
+                            <span class="w-2.5 h-4 bg-nexus-glow animate-pulse"></span>
                         </div>
                     </div>
                 </div>
@@ -345,129 +546,174 @@
         </div>
     </section>
 
-    <section class="py-24 relative bg-nexus-dark">
-        <div class="max-w-7xl mx-auto px-6" data-aos="fade-up">
+    <!-- ROI COMPARISON: MANUAL SPREADSHEETS VS NEXUS LINKS -->
+    <section id="comparison" class="py-24 bg-nexus-dark">
+        <div class="max-w-6xl mx-auto px-6">
             <div class="text-center max-w-2xl mx-auto mb-16">
-                <h2 class="text-4xl font-bold text-white mb-4">Multi-RAT Coverage</h2>
-                <p class="text-slate-400">Comprehensive support across all major cellular generations.</p>
+                <span class="text-xs font-mono uppercase tracking-widest text-nexus-glow">Measurable Return On Investment</span>
+                <h2 class="text-3xl sm:text-4xl font-black text-white mt-2">Manual Spreadsheets vs. Nexus Links</h2>
             </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <div class="bg-slate-900/50 p-8 rounded-2xl text-center border border-white/5 hover:border-slate-400 transition-colors group cursor-default">
-                    <div class="text-4xl font-black text-slate-500 group-hover:text-slate-300 transition-colors mb-2">2G</div>
-                    <div class="text-xs text-slate-400">BSIC & BCCH Verification</div>
+            <div class="grid md:grid-cols-2 gap-8">
+                
+                <!-- Legacy Way -->
+                <div class="bg-rose-950/20 border border-rose-500/20 rounded-2xl p-8 relative">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold">✕</div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white">Manual Planning</h3>
+                            <span class="text-xs text-rose-400 font-mono">Traditional Excel Workflow</span>
+                        </div>
+                    </div>
+                    <ul class="space-y-4 text-sm text-slate-300">
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="x" class="w-5 h-5 text-rose-500 shrink-0 mt-0.5"></i>
+                            <span><strong>Days of manual labor</strong> calculating Haversine distances across thousands of rows.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="x" class="w-5 h-5 text-rose-500 shrink-0 mt-0.5"></i>
+                            <span><strong>High rate of duplicate PCIs</strong> and missing reciprocal neighbor relations.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="x" class="w-5 h-5 text-rose-500 shrink-0 mt-0.5"></i>
+                            <span><strong>Manual MML typing errors</strong> causing rejected scripts in the element manager (EMS).</span>
+                        </li>
+                    </ul>
                 </div>
-                <div class="bg-slate-900/50 p-8 rounded-2xl text-center border border-white/5 hover:border-amber-500 transition-colors group cursor-default">
-                    <div class="text-4xl font-black text-slate-500 group-hover:text-amber-400 transition-colors mb-2">3G</div>
-                    <div class="text-xs text-slate-400">Scrambling Code Audits</div>
+
+                <!-- Nexus Links Way -->
+                <div class="bg-emerald-950/20 border border-emerald-500/30 rounded-2xl p-8 relative shadow-[0_0_30px_rgba(16,185,129,0.1)]">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 rounded-xl bg-nexus-glow text-black flex items-center justify-center font-bold">✓</div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white">Nexus Links Intelligence</h3>
+                            <span class="text-xs text-nexus-glow font-mono">Algorithmic Optimization</span>
+                        </div>
+                    </div>
+                    <ul class="space-y-4 text-sm text-slate-300">
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="check" class="w-5 h-5 text-nexus-glow shrink-0 mt-0.5"></i>
+                            <span><strong>Sub-second optimization</strong> of full regional clusters (1,500+ cells).</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="check" class="w-5 h-5 text-nexus-glow shrink-0 mt-0.5"></i>
+                            <span><strong>Zero-conflict guarantee</strong> with automatic PCI, PSC, and BCCH collision checks.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="check" class="w-5 h-5 text-nexus-glow shrink-0 mt-0.5"></i>
+                            <span><strong>One-click verified MML exports</strong> formatted for your vendor EMS directly.</span>
+                        </li>
+                    </ul>
                 </div>
-                <div class="bg-slate-900/50 p-8 rounded-2xl text-center border border-white/5 hover:border-teal-500 transition-colors group cursor-default">
-                    <div class="text-4xl font-black text-slate-500 group-hover:text-teal-400 transition-colors mb-2">4G</div>
-                    <div class="text-xs text-slate-400">PCI Collision & Confusion</div>
-                </div>
-                <div class="bg-slate-900/50 p-8 rounded-2xl text-center border border-nexus-500/30 shadow-[0_0_30px_rgba(16,185,129,0.15)] hover:border-nexus-glow group cursor-default relative overflow-hidden">
-                    <div class="absolute inset-0 bg-gradient-to-t from-nexus-glow/10 to-transparent"></div>
-                    <div class="relative text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-nexus-500 to-nexus-glow mb-2">5G</div>
-                    <div class="relative text-xs text-slate-300">NSA/SA Beamforming</div>
-                </div>
+
             </div>
         </div>
     </section>
 
-    <section id="contact" class="py-32 relative bg-slate-950 border-t border-white/10">
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[500px] bg-nexus-500/20 blur-[150px] rounded-full pointer-events-none"></div>
-        
+    <!-- CONTACT / REQUEST DEMO FORM -->
+    <section id="contact" class="py-28 relative bg-slate-950 border-t border-white/10">
         <div class="max-w-4xl mx-auto px-6 relative z-10" data-aos="zoom-in">
-            <div class="bg-nexus-panel/80 backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-white/10 shadow-2xl">
+            <div class="bg-nexus-panel/90 backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-white/10 shadow-2xl">
                 
                 <div class="text-center max-w-2xl mx-auto mb-10">
-                    <h2 class="text-4xl font-black text-white tracking-tight mb-4">Request Your Live Demo</h2>
-                    <p class="text-slate-400 text-base mb-2">
-                        Experience how Nexus Links transforms weeks of manual spreadsheet planning into seconds of automated intelligence.
+                    <span class="text-xs font-mono uppercase tracking-widest text-nexus-glow">Get Started Today</span>
+                    <h2 class="text-3xl md:text-5xl font-black text-white tracking-tight mt-2 mb-4">Request a Live Demo</h2>
+                    <p class="text-slate-400 text-sm md:text-base">
+                        Schedule a 20-minute walkthrough with our RF engineering team to test Nexus Links on your own network parameter sheets.
                     </p>
-                    <a href="mailto:support@nexuslinks.tech" class="text-nexus-glow hover:text-white transition-colors text-sm font-semibold">
-                        Direct Email: support@nexuslinks.tech
-                    </a>
                 </div>
 
                 <form action="mailto:support@nexuslinks.tech" method="POST" enctype="text/plain" class="space-y-6">
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Full Name</label>
-                            <input type="text" name="Name" class="w-full px-5 py-4 rounded-xl bg-black/50 border border-slate-700 text-white placeholder-slate-600 focus:outline-none focus:border-nexus-glow focus:ring-1 focus:ring-nexus-glow transition-all" placeholder="Enter your name" required>
+                            <label class="block text-xs font-mono uppercase text-slate-400 mb-2">Your Name</label>
+                            <input type="text" name="Name" class="w-full px-4 py-3.5 rounded-xl bg-black/50 border border-slate-700 text-white placeholder-slate-600 focus:outline-none focus:border-nexus-glow transition-all" placeholder="Alex Morgan" required>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Work Email</label>
-                            <input type="email" name="Email" class="w-full px-5 py-4 rounded-xl bg-black/50 border border-slate-700 text-white placeholder-slate-600 focus:outline-none focus:border-nexus-glow focus:ring-1 focus:ring-nexus-glow transition-all" placeholder="name@telecom.com" required>
+                            <label class="block text-xs font-mono uppercase text-slate-400 mb-2">Work Email</label>
+                            <input type="email" name="Email" class="w-full px-4 py-3.5 rounded-xl bg-black/50 border border-slate-700 text-white placeholder-slate-600 focus:outline-none focus:border-nexus-glow transition-all" placeholder="alex@telecom-operator.com" required>
                         </div>
                     </div>
                     
-                    <div>
-                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Company / Operator</label>
-                        <input type="text" name="Company" class="w-full px-5 py-4 rounded-xl bg-black/50 border border-slate-700 text-white placeholder-slate-600 focus:outline-none focus:border-nexus-glow focus:ring-1 focus:ring-nexus-glow transition-all" placeholder="Your Organization" required>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-mono uppercase text-slate-400 mb-2">Company / Operator</label>
+                            <input type="text" name="Company" class="w-full px-4 py-3.5 rounded-xl bg-black/50 border border-slate-700 text-white placeholder-slate-600 focus:outline-none focus:border-nexus-glow transition-all" placeholder="National Telecom / RF Consultancy" required>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-mono uppercase text-slate-400 mb-2">Primary Radio Access Tech</label>
+                            <select name="RAT" class="w-full px-4 py-3.5 rounded-xl bg-black/50 border border-slate-700 text-white focus:outline-none focus:border-nexus-glow transition-all">
+                                <option>4G LTE & 5G NR</option>
+                                <option>2G GSM & 3G UMTS</option>
+                                <option>Multi-RAT (2G/3G/4G/5G)</option>
+                                <option>Private LTE / Industrial Wireless</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Additional Information (Optional)</label>
-                        <textarea name="Message" rows="3" class="w-full px-5 py-4 rounded-xl bg-black/50 border border-slate-700 text-white placeholder-slate-600 focus:outline-none focus:border-nexus-glow focus:ring-1 focus:ring-nexus-glow transition-all" placeholder="Tell us about your network requirements..."></textarea>
+                        <label class="block text-xs font-mono uppercase text-slate-400 mb-2">Network Size or Specific Requirements</label>
+                        <textarea name="Message" rows="3" class="w-full px-4 py-3.5 rounded-xl bg-black/50 border border-slate-700 text-white placeholder-slate-600 focus:outline-none focus:border-nexus-glow transition-all" placeholder="e.g., Optimizing 1,200 Huawei and Ericsson macro cells..."></textarea>
                     </div>
 
-                    <button type="submit" class="btn-glow w-full py-5 rounded-xl bg-gradient-to-r from-nexus-500 to-nexus-glow text-nexus-dark font-black text-lg flex items-center justify-center gap-3 mt-4">
+                    <button type="submit" class="btn-glow w-full py-4 rounded-xl bg-gradient-to-r from-nexus-500 to-nexus-glow text-nexus-dark font-black text-base flex items-center justify-center gap-3">
                         <i data-lucide="send" class="w-5 h-5"></i> Submit Demo Request
                     </button>
 
-                    <p class="text-center text-xs text-slate-500 mt-6 flex items-center justify-center gap-2">
-                        <i data-lucide="shield-check" class="w-4 h-4 text-emerald-500"></i> Enterprise Grade Security & Data Privacy Assured
+                    <p class="text-center text-xs text-slate-400 mt-4 flex items-center justify-center gap-2 font-mono">
+                        <i data-lucide="lock" class="w-4 h-4 text-emerald-400"></i> Strict Data Confidentiality • No Data Leaves Your Machine
                     </p>
                 </form>
             </div>
         </div>
     </section>
 
-    <footer class="py-10 bg-black border-t border-white/5">
+    <!-- FOOTER -->
+    <footer class="py-10 bg-black border-t border-white/10">
         <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="flex items-center gap-3">
                 <div class="w-8 h-8 rounded bg-gradient-to-br from-nexus-500 to-nexus-glow flex items-center justify-center">
-                    <i data-lucide="share-2" class="w-4 h-4 text-nexus-dark"></i>
+                    <i data-lucide="radio" class="w-4 h-4 text-nexus-dark"></i>
                 </div>
-                <span class="font-bold text-white text-lg tracking-wide">NEXUS<span class="text-nexus-glow">LINKS</span></span>
+                <span class="font-black text-white text-lg tracking-wide">NEXUS<span class="text-nexus-glow">LINKS</span></span>
             </div>
-            <div class="text-sm text-slate-500">
-                &copy; 2026 Nexus Links Enterprise. All rights reserved.
+            <div class="text-xs text-slate-500 font-mono">
+                &copy; 2026 Nexus Links. Enterprise Telecom Intelligence. All rights reserved.
             </div>
         </div>
     </footer>
 
+    <!-- INTERACTIVE ENGINE LOGIC -->
     <script>
-        // 1. Initialize Icons
+        // 1. Initialize Lucide Icons
         lucide.createIcons();
 
-        // 2. Initialize Scroll Animations (AOS)
+        // 2. Initialize AOS Animations
         AOS.init({
             once: true,
-            offset: 100,
-            duration: 800,
+            offset: 80,
+            duration: 700,
             easing: 'ease-out-cubic'
         });
 
-        // 3. Initialize Particles.js
+        // 3. Particles Background Effect
         particlesJS("particles-js", {
             "particles": {
-                "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
+                "number": { "value": 45, "density": { "enable": true, "value_area": 800 } },
                 "color": { "value": "#00ffa3" },
                 "shape": { "type": "circle" },
-                "opacity": { "value": 0.4, "random": false },
-                "size": { "value": 3, "random": true },
+                "opacity": { "value": 0.35, "random": false },
+                "size": { "value": 2.5, "random": true },
                 "line_linked": {
                     "enable": true,
-                    "distance": 150,
+                    "distance": 140,
                     "color": "#10b981",
-                    "opacity": 0.4,
-                    "width": 1.2
+                    "opacity": 0.35,
+                    "width": 1
                 },
                 "move": {
                     "enable": true,
-                    "speed": 1.5,
+                    "speed": 1.2,
                     "direction": "none",
                     "random": false,
                     "straight": false,
@@ -479,72 +725,100 @@
                 "detect_on": "canvas",
                 "events": {
                     "onhover": { "enable": true, "mode": "grab" },
-                    "onclick": { "enable": true, "mode": "push" },
-                    "resize": true
+                    "onclick": { "enable": true, "mode": "push" }
                 },
                 "modes": {
-                    "grab": { "distance": 200, "line_linked": { "opacity": 0.8 } },
-                    "push": { "particles_nb": 4 }
+                    "grab": { "distance": 160, "line_linked": { "opacity": 0.7 } }
                 }
             },
             "retina_detect": true
         });
 
-        // 4. Alpine.js Terminal Data supporting Huawei, Ericsson, Nokia, ZTE, Cross-Vendor, and Custom Template
+        // 4. Interactive Integrity Audit Engine
+        function auditData() {
+            return {
+                filter: 'all',
+                items: [
+                    { id: 1, type: 'pci', severity: 'CRITICAL', rule: 'PCI Collision (5G NR)', sectors: 'SITE_01_A ➔ SITE_04_C', details: 'Both share PCI 104 on ARFCN 634000 within 1.2km', resolved: false },
+                    { id: 2, type: 'neighbor', severity: 'WARNING', rule: 'Missing Reciprocal NBR', sectors: 'SITE_02_B ➔ SITE_03_A', details: 'Forward relation exists; Return relation missing in EPT', resolved: false },
+                    { id: 3, type: 'pci', severity: 'WARNING', rule: 'PCI Mod-3 Interference', sectors: 'SITE_01_B ➔ SITE_02_A', details: 'PSS collision causing RS-SINR degradation', resolved: false }
+                ],
+                get unresolvedCount() {
+                    return this.items.filter(i => !i.resolved).length;
+                },
+                get filteredItems() {
+                    if (this.filter === 'all') return this.items;
+                    return this.items.filter(i => i.type === this.filter);
+                },
+                resolveItem(id) {
+                    const item = this.items.find(i => i.id === id);
+                    if (item) {
+                        item.resolved = true;
+                        setTimeout(() => lucide.createIcons(), 50);
+                    }
+                },
+                resolveAll() {
+                    this.items.forEach(i => i.resolved = true);
+                    setTimeout(() => lucide.createIcons(), 50);
+                }
+            };
+        }
+
+        // 5. Interactive MML Generator Engine
         function terminalData() {
             return {
                 vendor: 'huawei',
                 isTyping: false,
                 displayedLines: [],
                 vendors: {
-                    'huawei': 'Huawei System',
-                    'ericsson': 'Ericsson ENM',
-                    'nokia': 'Nokia NetAct',
-                    'zte': 'ZTE NetNumen',
-                    'cross_vendor': 'Cross-Vendor Link',
-                    'custom_template': 'Custom Template'
+                    'huawei': 'Huawei',
+                    'ericsson': 'Ericsson',
+                    'nokia': 'Nokia',
+                    'zte': 'ZTE',
+                    'cross_vendor': 'Cross-Vendor',
+                    'custom_template': 'Custom CLI'
                 },
                 scripts: {
                     huawei: [
-                        '<span class="text-slate-500">// Automated Huawei 5G NR Script Compilation</span>',
-                        'Initializing connection to BSC/RNC...',
+                        '<span class="text-slate-500">// Huawei 5G NR Automated Neighbor Generation</span>',
+                        'Parsing local cell topology (GNodeB_101)...',
                         '<span class="text-nexus-glow">ADD NBRREL:</span> LocalCellId=101, TargetCellId=204, NbrType=NR_HANDOVER;',
                         '<span class="text-nexus-glow">MOD NRCELLFREQREL:</span> LocalCellId=101, SsbFreq=634000;',
-                        '<span class="text-emerald-400">✓ Optimization successful. 0 Conflicts.</span>'
+                        '<span class="text-emerald-400">✓ Optimization successful. 0 PCI Conflicts.</span>'
                     ],
                     ericsson: [
-                        '<span class="text-slate-500">// Ericsson ENM CLI Command Batch</span>',
-                        'Fetching cell topography data...',
+                        '<span class="text-slate-500">// Ericsson ENM Parameter Batch Execution</span>',
+                        'Verifying source & target EUtranCell coordinates...',
                         '<span class="text-nexus-glow">cnh:</span> EUtranCellFDD=LTE_Site01_A, EUtranCellRelation=LTE_Site02_B;',
                         '<span class="text-nexus-glow">set:</span> EUtranCellRelation=LTE_Site02_B, isHoAllowed=true;',
-                        '<span class="text-emerald-400">✓ Handover priorities injected.</span>'
+                        '<span class="text-emerald-400">✓ Handover priorities & thresholds injected.</span>'
                     ],
                     nokia: [
-                        '<span class="text-slate-500">// Nokia NetAct / Plan Editor CLI Command Set</span>',
+                        '<span class="text-slate-500">// Nokia NetAct Plan Editor Command Set</span>',
                         'Loading NetAct object manager context...',
                         '<span class="text-nexus-glow">CREATE LNREL:</span> srcLnbts=104, srcLncell=1, tgtLnbts=208, tgtLncell=3;',
                         '<span class="text-nexus-glow">SET LNREL:</span> handOverAllowed=true, nrNeighbourType=AUTOMATIC;',
                         '<span class="text-emerald-400">✓ NetAct parameter plan generated.</span>'
                     ],
                     zte: [
-                        '<span class="text-slate-500">// ZTE NetNumen U31 MML Engine</span>',
-                        'Validating EMS topology parameters...',
+                        '<span class="text-slate-500">// ZTE NetNumen U31 Batch Commands</span>',
+                        'Checking EMS topology parameters...',
                         '<span class="text-nexus-glow">ADD NRNEIGHBOR:</span> SubNetwork=1, ME=101, NRCellId=1, TgtNRCellId=204;',
                         '<span class="text-nexus-glow">SET NRFREQ:</span> SubNetwork=1, ME=101, Arfcn=634000;',
                         '<span class="text-emerald-400">✓ NetNumen batch execution verified.</span>'
                     ],
                     cross_vendor: [
-                        '<span class="text-slate-500">// Cross-Vendor Neighbor Link: Huawei gNodeB ➔ Ericsson eNodeB</span>',
-                        'Parsing source/target parameters (PCI, Arfcn, TAC)...',
-                        '<span class="text-nexus-glow">[SRC: Huawei] ADD NBRREL:</span> LocalCellId=101, TargetCellId=204, NbrType=NR_HANDOVER;',
+                        '<span class="text-slate-500">// Cross-Vendor Link: Huawei gNodeB ➔ Ericsson eNodeB</span>',
+                        'Mapping external cell identifiers (PCI: 104, ARFCN: 634000)...',
+                        '<span class="text-nexus-glow">[SRC: Huawei] ADD NBRREL:</span> LocalCellId=101, TargetCellId=204;',
                         '<span class="text-nexus-glow">[TGT: Ericsson] cnh:</span> EUtranCellFDD=LTE_Site01, EUtranCellRelation=NR_Site02;',
-                        '<span class="text-emerald-400">✓ Cross-vendor parameters validated & mapped successfully.</span>'
+                        '<span class="text-emerald-400">✓ Cross-vendor parameters validated & mapped.</span>'
                     ],
                     custom_template: [
-                        '<span class="text-slate-500">// User Custom Template Ruleset Applied</span>',
-                        'Substituting variables: ${SRC_CELL_ID}, ${TGT_PCI}, ${FREQ}...',
-                        '<span class="text-nexus-glow">CUSTOM_CMD --src:</span> 101 --tgt: 204 --ho-type: INTER_VENDOR;',
-                        '<span class="text-nexus-glow">SET_NEIGHBOR_PRIORITY:</span> TargetPci=104, Priority=1;',
+                        '<span class="text-slate-500">// User Custom Template Ruleset</span>',
+                        'Injecting operator variables (${SRC_CELL_ID}, ${TGT_PCI})...',
+                        '<span class="text-nexus-glow">CUSTOM_CMD:</span> --src 101 --tgt 204 --ho-type INTER_VENDOR;',
+                        '<span class="text-nexus-glow">SET_PRIORITY:</span> TargetPci=104, Priority=1;',
                         '<span class="text-emerald-400">✓ Custom operator template compiled with 0 syntax errors.</span>'
                     ]
                 },
@@ -563,13 +837,13 @@
                         if (i < lines.length) {
                             this.displayedLines.push(lines[i]);
                             i++;
-                            setTimeout(typeLine, Math.random() * 200 + 300);
+                            setTimeout(typeLine, Math.random() * 150 + 200);
                         } else {
                             this.isTyping = false;
                         }
                     };
                     
-                    setTimeout(typeLine, 400);
+                    setTimeout(typeLine, 300);
                 }
             }
         }
